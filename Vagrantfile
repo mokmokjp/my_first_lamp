@@ -5,7 +5,7 @@
 Vagrant.configure(2) do |config|
   # VirtualBoxの設定
   config.vm.provider :virtualbox do |v|
-    v.name = "my_first_lamp"
+    v.name = "my.first.lamp"
     v.customize ["modifyvm", :id, "--memory", 2048]
     v.customize ["modifyvm", :id, "--cableconnected1", "on"]
       # GUIを表示
@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "centos/7"
   config.vm.box_version = "1708.01"
   # ホスト名
-  config.vm.hostname = "my_first_lamp"
+  config.vm.hostname = "my.first.lamp"
   # IPアドレス
   config.vm.network :private_network, ip: "192.168.33.10"
   # ホストOSのディレクトリから、仮想マシン上のディレクトリへの一方向の同期を設定
