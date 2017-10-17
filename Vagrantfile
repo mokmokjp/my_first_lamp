@@ -28,6 +28,7 @@ Vagrant.configure(2) do |config|
       ansible.version = "2.3.2.0"
       ansible.inventory_path = "./ansiblefiles/hosts/local"
       ansible.playbook = "./ansiblefiles/site.yml"
+      ansible.limit = 'webservers'
     end
   end
 # 仮想マシンの定義を終了
