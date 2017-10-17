@@ -46,17 +46,17 @@
     owner       : root
     mode        : 0600
 
-- name          : WordPress用のデータベースを作成
+- name          : データベースを作成
   mysql_db      :
-    name        : "{{ db_name_wp }}"
+    name        : "{{ db_name_first }}"
     state       : present
 
-- name          : WordPress用のMySQLユーザーを作成
+- name          : MySQLユーザーを作成
   mysql_user    :
-    name        : "{{ mysql_user_wp }}"
+    name        : "{{ mysql_user_first }}"
     host        : "{{ item }}"
-    password    : "{{ mysql_password_wp }}"
-    priv        : "{{ db_name_wp }}.*:ALL,GRANT"
+    password    : "{{ mysql_password_first }}"
+    priv        : "{{ db_name_first }}.*:ALL,GRANT"
     state       : present
   with_items    :
       - localhost

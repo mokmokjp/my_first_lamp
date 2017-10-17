@@ -10,17 +10,18 @@
 ===仮想マシン
 |OS(VagrantBox)|[centos/7](https://app.vagrantup.com/centos/boxes/7) v1708.01|
 |Webサーバー|Apache v2.4.6|
-|DBサーバー|MariaDB v|
-|言語|PHP v|
+|DBサーバー|MariaDB v10.2.9|
+|言語|PHP v7.0.24|
 |その他ソフト||
 
 情報
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
 |IPアドレス|192.168.33.10|
-|SSH||
-|DBユーザ|ユーザ名: root, パスワード: 自分で設定|
-|DBユーザ|ユーザ名: 自分で設定, パスワード: 自分で設定|
+|SSH|`パスなし`|
+|DBユーザ|ユーザ名: root, パスワード: `自分で設定`|
+|DBユーザ|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
+|DB名|`自分で設定`|
 
 ===仮想マシンのプロビジョニング
 |仮想化ソフト|[ViatualBox](https://www.virtualbox.org/wiki/Downloads) v5.1.28|
@@ -52,8 +53,22 @@
 |仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
 |ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
 
-【3】ホストマシンに必要なものを入れる
+【3】仮想マシン上のミドルウェアの設定
+
+- 仮想マシン上のDBユーザを設定する
+次のファイルを編集 `ansiblefiles/roles/db/tasks/main.yml`:
+```yml
+mysql_root_password: `pass_root`
+mysql_user_first: `user_hoge`
+mysql_password_first: `pass_piyo`
+db_name_first: `db_name_fuga`
+```
+
+【4】ホストマシンに必要なものを入れる
 
 1. ホストマシンにnode.jsをインストール
 2. ホストマシンにnpmでGulpをグローバルインストール
 3. ホストマシンのプロジェクトルートで、npmで必要なものをローカルインストール
+
+
+

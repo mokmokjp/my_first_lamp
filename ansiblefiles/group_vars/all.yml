@@ -7,26 +7,33 @@ ntp_servers:
   - ntp.jst.mfeed.ad.jp
   - jp.pool.ntp.org
 
+# WEBサーバーの設定
+apache_version: 2.4.6
+
 # DBの設定
+mariadb_version: 10.2.9
 db_memory: 1536M
 mysql_root_password: pass_root
-mysql_user_wp: user_hoge
-mysql_password_wp: pass_piyo
-db_name_wp: db_name_fuga
+mysql_user_first: user_hoge
+mysql_password_first: pass_piyo
+db_name_first: db_name_fuga
 
-# phpMyAdminの設定
-phpMyAdmin:
-  # ダウンロードURL
-  url: https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.tar.gz
-  # phpMyAdmin パッケージファイル名
-  package_filename: phpMyAdmin-4.5.5.1-all-languages
-  # 作業ディレクトリ
-  work_dir: /usr/local/src
-  # 配置ディレクトリ
-  deploy_dir: /var/www/html
-  # phpMyAdmin ホームディレクトリ
-  home_dir: /var/www/html/phpMyAdmin
-  # phpMyAdmin 設定ファイル変更箇所
-  config_changes:
-    - regexp: "^(.*blowfish_secret.*) = .*"
-      line: "\\1 = '7750';"
+# PHPの設定
+php_version: 7.0.24
+
+# # phpMyAdminの設定
+# phpMyAdmin:
+#   # ダウンロードURL
+#   url: https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.tar.gz
+#   # phpMyAdmin パッケージファイル名
+#   package_filename: phpMyAdmin-4.5.5.1-all-languages
+#   # 作業ディレクトリ
+#   work_dir: /usr/local/src
+#   # 配置ディレクトリ
+#   deploy_dir: /var/www/html
+#   # phpMyAdmin ホームディレクトリ
+#   home_dir: /var/www/html/phpMyAdmin
+#   # phpMyAdmin 設定ファイル変更箇所
+#   config_changes:
+#     - regexp: "^(.*blowfish_secret.*) = .*"
+#       line: "\\1 = '7750';"
