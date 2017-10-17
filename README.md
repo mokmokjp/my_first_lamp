@@ -8,13 +8,14 @@
 - ホストマシン上にはnode.jsを入れ、シンプルなSASS環境を作ります。
 
 ===仮想マシン
+
+| 分類 | 内容 |
+|--|--|
 |OS(VagrantBox)|[centos/7](https://app.vagrantup.com/centos/boxes/7) v1708.01|
 |Webサーバー|Apache v2.4.6|
 |DBサーバー|MariaDB v10.2.9|
 |言語|PHP v7.0.24|
-|その他ソフト||
-
-情報
+|その他ソフト|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
 |IPアドレス|192.168.33.10|
@@ -24,14 +25,20 @@
 |DB名|`自分で設定`|
 
 ===仮想マシンのプロビジョニング
+
+| 分類 | 内容 |
+|--|--|
 |仮想化ソフト|[ViatualBox](https://www.virtualbox.org/wiki/Downloads) v5.1.28|
 |仮想マシン構築|[Vagrant](https://www.vagrantup.com/downloads.html) v2.0.0|
 |インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html) Ansible v2.3.2.0|
 
 ===ホストマシン
-|node.js||
-|Gulp||
-|SASS||
+
+| 分類 | 内容 |
+|--|--|
+|node.js|-|
+|Gulp|-|
+|SASS|-|
 
 ## 使い方
 
@@ -69,6 +76,3 @@ db_name_first: `db_name_fuga`
 1. ホストマシンにnode.jsをインストール
 2. ホストマシンにnpmでGulpをグローバルインストール
 3. ホストマシンのプロジェクトルートで、npmで必要なものをローカルインストール
-
-
-
