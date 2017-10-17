@@ -11,18 +11,43 @@
     - libselinux-python
     - libsemanage-python
 
-- name          : Configure SELinux to start mysql on any port
+- name          : 任意のポートでMySQLを起動できるようにSELinuxを設定する
   seboolean     :
     name        : mysql_connect_any
     state       : true
     persistent  : yes
   when          : ansible_selinux.status == "enabled"
 
+# - name          : mysql.sockファイルを生成
+#   file          :
+#     path        : /var/lib/mysql/mysql.sock
+#     state       : touch
+#     owner       : mysql
+#     group       : mysql
+#     mode        : 0775
+
+# - name          : ログファイルを生成
+#   file          :
+#     path        : /var/log/mariadb/mariadb.log
+#     state       : touch
+#     owner       : mysql
+#     group       : mysql
+#     mode        : 0775
+
+# - name          : PIDディレクトリを生成
+#   file          :
+#     path        : /var/run/mariadb
+#     state       : directory
+#     owner       : mysql
+#     group       : mysql
+#     mode        : 0775
+
 - name          : mariadbを起動
   service:
     name        : mariadb
     state       : started
     enabled     : yes
+  sudo: yes
 
 - name                   : MySQLのrootユーザーを設定
   mysql_user             :
@@ -33,34 +58,34 @@
     login_password       : "{{ mysql_root_password }}"
     check_implicit_admin : yes
 
-- name          : my.cnf_baseをアップロード
-  template      :
-    src         : my.cnf_base
-    dest        : /etc/my.cnf
-  notify        : mariadb再起動
+# - name          : my.cnf_base.j2をアップロード
+#   template      :
+#     src         : my.cnf_base.j2
+#     dest        : /etc/my.cnf
+#   # notify        : mariadb再起動
 
-- name          : my.cnfをアップロード (ansibleでDB作成などできるようにするため)
+- name          : my.cnf_root.j2をアップロード (ansibleでDB作成などできるようにするため)
   template      :
-    src         : my.cnf
+    src         : my.cnf_root.j2
     dest        : /root/.my.cnf
     owner       : root
     mode        : 0600
 
-- name          : データベースを作成
-  mysql_db      :
-    name        : "{{ db_name_first }}"
-    state       : present
+# - name          : データベースを作成
+#   mysql_db      :
+#     name        : "{{ db_name_first }}"
+#     state       : present
 
-- name          : MySQLユーザーを作成
-  mysql_user    :
-    name        : "{{ mysql_user_first }}"
-    host        : "{{ item }}"
-    password    : "{{ mysql_password_first }}"
-    priv        : "{{ db_name_first }}.*:ALL,GRANT"
-    state       : present
-  with_items    :
-      - localhost
-      - 192.168.10.%
+# - name          : MySQLユーザーを作成
+#   mysql_user    :
+#     name        : "{{ mysql_user_first }}"
+#     host        : "{{ item }}"
+#     password    : "{{ mysql_password_first }}"
+#     priv        : "{{ db_name_first }}.*:ALL,GRANT"
+#     state       : present
+#   with_items    :
+#       - localhost
+#       - 192.168.10.%
 
 # - name            : phpMyAdmin をダウンロード
 #   get_url         :
