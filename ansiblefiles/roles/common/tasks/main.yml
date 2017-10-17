@@ -100,10 +100,10 @@
     name      : mlocate
     state     : installed
 
-- name        : Development toolsをインストール
-  yum         :
-    name      : "@Development tools"
-    state     : installed
+# - name        : Development toolsをインストール
+#   yum         :
+#     name      : "@Development tools"
+#     state     : installed
 
 - name        : updatedbコマンド実行
   shell       : updatedb
