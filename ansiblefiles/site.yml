@@ -1,0 +1,8 @@
+---
+- name: プロビジョニングを行う
+  hosts: webservers
+  become: yes
+  roles:
+    - common
+    - web
+    - db

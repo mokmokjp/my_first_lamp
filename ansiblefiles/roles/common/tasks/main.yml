@@ -1,0 +1,141 @@
+---
+# yum update
+# - name    : yum update実行
+#   yum     :
+#     name  : "*"
+#     state : latest
+
+# yum repos
+- name    : EPELリポジトリをインストール
+  yum     :
+    name  : epel-release
+    state : installed
+
+- name    : Remiリポジトリをインストール
+  yum     :
+    name  : http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+    state : installed
+
+# selinux
+- name    : libselinux-pythonインストール
+  yum     :
+    name  : libselinux-python
+    state : installed
+
+- name    : SELinux無効化
+  selinux :
+    state : disabled
+
+# locale
+- name        : /etc/locale.confを書き換え
+  lineinfile  :
+    dest      : /etc/locale.conf
+    state     : present
+    backrefs  : yes
+    regexp    : '^LANG=\"en_US.UTF-8\"'
+    line      : 'LANG="{{ locale }}"'     # see group_vars/all.yml
+
+# timezone
+- name        : タイムゾーンファイルを/etc/localtimeにコピー
+  copy        :
+    src       : /usr/share/zoneinfo/{{ timezone }}    # see group_vars/all.yml
+    dest      : /etc/localtime
+    owner     : root
+    group     : root
+    mode      : 644
+    force     : yes
+
+- name        : タイムゾーン設定
+  file        : src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime state=link force=true
+
+# ntp
+- name      : ntpインストール
+  yum       :
+    name    : ntp
+    state   : installed
+
+- name      : ntpdが起動中か確認
+  shell     : "service ntpd status | grep -q 停止; echo $?"
+  register  : result
+
+- name      : ntpdate実行 (ntpd停止中の場合)
+  command   : ntpdate {{ ntp_servers.0 }}       # see group_vars/all.yml
+  when      : result.stdout == "0"
+
+- name      : テンプレートを/etc/ntp.confにコピー
+  notify    : ntpd再起動
+  template  :
+    src     : ntp.conf.j2
+    dest    : /etc/ntp.conf
+
+- name      : ntpd起動
+  service   :
+    name    : ntpd
+    state   : started
+    enabled : yes
+
+# utility tools
+- name        : wgetをインストール
+  yum         :
+    name      : wget
+    state     : installed
+
+- name        : vim-enhancedをインストール
+  yum         :
+    name      : vim-enhanced
+    state     : installed
+
+- name        : nkfをインストール
+  yum         :
+    name      : nkf
+    state     : installed
+
+- name        : treeをインストール
+  yum         :
+    name      : tree
+    state     : installed
+
+- name        : mlocateをインストール
+  yum         :
+    name      : mlocate
+    state     : installed
+
+- name        : Development toolsをインストール
+  yum         :
+    name      : "@Development tools"
+    state     : installed
+
+- name        : updatedbコマンド実行
+  shell       : updatedb
+
+# Git
+# - name        : gitをインストール
+#   yum         :
+#     name      : git
+#     state     : installed
+
+# Jenkins
+# - name        : open JDK をインストール
+#   yum         :
+#     name      : java-1.6.0-openjdk
+#     state     : latest
+
+# - name        : Jenkinsのリポジトリを取得
+#   get_url     :
+#     url       : http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
+#     dest      : /etc/yum.repos.d/jenkins.repo
+
+# - name        : Jenkinsリポジトリのキーをインポート
+#   rpm_key     :
+#     key       : http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+
+# - name        : Jenkinsをインストール
+#   yum         :
+#     name      : jenkins
+#     state     : latest
+
+# - name        : Jenkinsを起動
+#   service     :
+#     name      : jenkins
+#     state     : started
+#     enabled   : yes

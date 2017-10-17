@@ -1,0 +1,12 @@
+[webservers]
+192.168.33.10
+
+[dbservers]
+192.168.33.10
+
+[local:children]
+webservers
+dbservers
+
+[local:vars]
+ansible_connection=local

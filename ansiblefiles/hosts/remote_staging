@@ -1,0 +1,9 @@
+[webservers]
+xxx.xxx.xxx.xxx
+
+[dbservers]
+yyy.yyy.yyy.yyy
+
+[remote_staging:children]
+webservers
+dbservers

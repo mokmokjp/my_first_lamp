@@ -1,0 +1,43 @@
+---
+
+# Apache
+- name          : httpdインストール
+  yum           :
+    name        : httpd
+    state       : installed
+
+- name          : httpd起動
+  service       :
+    name        : httpd
+    state       : started
+    enabled     : yes
+
+# PHP
+- name          : phpと関連パッケージインストール
+  yum           :
+    name        : "{{ item }}"
+    state       : installed
+    enablerepo  : remi,remi-php70
+  with_items    :
+    - php
+    - php-devel
+    - php-gd
+    - php-intl
+    - php-mbstring
+    - php-mysql
+    - php-pdo
+    - php-pear
+    - php-pgsql
+    - php-PHPMailer
+    - php-process
+    - php-simplepie
+    - php-xml
+
+- name          : /etc/php.iniを書き換え
+  lineinfile    :
+    dest        : /etc/php.ini
+    state       : present
+    backrefs    : yes
+    regexp      : '^\;date.timezone =$'
+    line        : 'date.timezone = "{{ timezone }}"'    # group_vars/all.yml
+  notify        : httpd再起動
