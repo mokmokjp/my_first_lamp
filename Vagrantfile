@@ -19,7 +19,9 @@ Vagrant.configure(2) do |config|
   # IPアドレス
   config.vm.network :private_network, ip: "192.168.33.10"
   # ホストOSのディレクトリから、仮想マシン上のディレクトリへの一方向の同期を設定
-  config.vm.synced_folder ".", "/var/www/", type: "rsync", rsync__exclude: [".git/"], rsync__auto: true
+  config.vm.synced_folder ".", "/var/www/", type: "rsync",
+    rsync__exclude: [".git/", ".vagrant/", "node_modules/"],
+    rsync__auto: true
   # ansible_localを使い、プロビジョニングを実行
   # vagrant up, vagrant provision実行時のみ通るようにする
   if ARGV[0] == "up" || ARGV[0] == "provision" then
