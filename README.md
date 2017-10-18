@@ -15,7 +15,8 @@
 |Webサーバー|Apache v2.4.6|
 |DBサーバー|MariaDB v10.2.9|
 |言語|PHP v7.0.24|
-|その他ソフト|-|
+|バージョン管理|[Git](https://git-scm.com/downloads)v2.14.1|
+|CIツール|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
 |IPアドレス|192.168.33.10|
@@ -37,19 +38,22 @@
 
 | 分類 | 内容 |
 |--|--|
-|node.js|-|
-|Gulp|-|
-|SASS|-|
+|OS|Windows10|
+|[node.js](https://nodejs.org/en/)|v6.11.4|
+|[npm](https://www.npmjs.com)|v3.10.10|
+|node_modules|全てプロジェクトルートにnpmでローカルインストール<br>[gulp](https://www.npmjs.com/package/gulp) v3.9.1<br>[gulp-sass](https://www.npmjs.com/package/gulp-sass) v3.1.0|
+|バージョン管理|[Git](https://git-scm.com/downloads)v2.14.1|
+|その他ソフト|[Cygwin](https://cygwin.com/install.html)|
 
 ## 使い方
 
 【1】仮想マシンを作るための準備
 
-1. ホストマシンに[VirtualBox(5.1.28)](https://www.virtualbox.org/wiki/Downloads)をインストール
-2. ホストマシンに[Vagrant(2.0.0)](https://www.vagrantup.com/downloads.html)をインストール
-3. ホストマシンがWindowsの場合、[Cygwin](Cygwin)のsshとrsyncをインストールし、CygwinにPATHを通す
+1. ホストマシンに[VirtualBox(v5.1.28)](https://www.virtualbox.org/wiki/Downloads)をインストール
+2. ホストマシンに[Vagrant(v2.0.0)](https://www.vagrantup.com/downloads.html)をインストール
+3. ホストマシンがWindowsの場合、[Cygwin](https://cygwin.com/install.html)のsshとrsyncをインストールし、CygwinにPATHを通す
 4. PCの仮想化支援機能を有効にしておく。PCのメーカーごとによって操作や設定が違うので、各々調べて行ってください。
-5. ホストマシンにGitをインストール
+5. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール
 6. ホストマシンにプロジェクト用のディレクトリを作り、このリポジトリをgit cloneする
 7. ホストマシンを再起動
 
@@ -66,10 +70,10 @@ config.vm.hostname = "my.first.lamp"
 ```
 
 【3】仮想マシン上のミドルウェアの設定
-`/ansiblefiles`内のファイル(AnsiblePlaybook)を編集することで、仮想マシン上のミドルウェアの設定ができます。
+`./ansiblefiles`内のファイル(AnsiblePlaybook)を編集することで、仮想マシン上のミドルウェアの設定ができます。
 
 - 仮想マシン上のDBユーザを設定する
-次のファイルを編集 `ansiblefiles/roles/db/tasks/main.yml`:
+次のファイルを編集 `./ansiblefiles/roles/db/tasks/main.yml`:
 ```yml
 mysql_root_password: `pass_root`
 mysql_user_first: `user_hoge`
@@ -89,6 +93,27 @@ db_name_first: `db_name_fuga`
 
 【5】ホストマシンの環境を整える
 
-1. ホストマシンにnode.jsをインストール
-2. ホストマシンにnpmでGulpをグローバルインストール
-3. ホストマシンのプロジェクトルートで、npmで必要なものをローカルインストール
+1. ホストマシンに[node.js(v6.11.4)](https://nodejs.org/en/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
+2. ホストマシンを再起動
+3. ホストマシンにnpmでgulp-cliをグローバルインストール
+```sh
+$ npm install --global gulp-cli
+```
+4. package.jsonファイルの内容に基づき、npmで必要なものをプロジェクトルートにローカルインストール。ホストマシンのプロジェクトルートで、以下コマンドを実行。
+```sh
+$ npm install
+```
+
+【6】gulpの設定、実行
+`gulpfile.js`を編集することで、gulpの動作設定ができます。
+
+- gulp-sassの設定をする
+`./html/css/*.scss`を変更すると、`.html/css/dest/`にSASSコンパイルされる設定になっています。
+
+| 目的 | コマンド |
+|--|--|
+|デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ gulp`コマンドを打つ|
+|特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ gulp taskname`コマンドを打つ|
+|監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
+
+## 解説

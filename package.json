@@ -1,0 +1,17 @@
+{
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mokmokjp/my_first_lamp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mokmokjp/my_first_lamp/issues"
+  },
+  "homepage": "https://github.com/mokmokjp/my_first_lamp#readme"
+}
