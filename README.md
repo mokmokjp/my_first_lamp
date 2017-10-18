@@ -7,7 +7,7 @@
 - 仮想マシンはシンプルなLAMP環境です。VirtualBox + Vagrant + ansible_localでプロビジョニングします。
 - ホストマシン上にはnode.jsを入れ、シンプルなSASS環境を作ります。
 
-![環境俯瞰図](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/image.png "環境俯瞰図")
+![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
 ===仮想マシン
 
