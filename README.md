@@ -42,7 +42,7 @@
 |[node.js](https://nodejs.org/en/)|v6.11.4|
 |[npm](https://www.npmjs.com)|v3.10.10|
 |node_modules|全てプロジェクトルートにnpmでローカルインストール<br>[gulp](https://www.npmjs.com/package/gulp) v3.9.1<br>[gulp-sass](https://www.npmjs.com/package/gulp-sass) v3.1.0|
-|バージョン管理|[Git](https://git-scm.com/downloads)v2.14.1|
+|バージョン管理|[Git](https://git-scm.com/downloads) v2.14.1|
 |その他ソフト|[Cygwin](https://cygwin.com/install.html)|
 
 ## 使い方
@@ -117,3 +117,12 @@ $ npm install
 |監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
 
 ## 解説
+
+.git/
+.vagrant/
+ansiblefiles/
+node_modules/
+.gitignore
+gulpfile.js
+package.json
+Vagrantfile

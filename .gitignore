@@ -176,3 +176,5 @@ $RECYCLE.BIN/
 # コンパイル先のディレクトリ
 dest/
 
+# ドキュメント
+docs/*.psd
