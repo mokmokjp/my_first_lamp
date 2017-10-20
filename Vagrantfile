@@ -16,8 +16,10 @@ Vagrant.configure(2) do |config|
   config.vm.box_version = "1708.01"
   # ホスト名
   config.vm.hostname = "my.first.lamp"
-  # IPアドレス
-  config.vm.network :private_network, ip: "192.168.33.10"
+  # 仮想マシンに静的IPアドレスを割り当て
+  config.vm.network "private_network", ip: "192.168.33.10"
+  # ポートフォワーディング
+  config.vm.network "forwarded_port", guest: 80, host: 8080
   # ホストOSのディレクトリから、仮想マシン上のディレクトリへの一方向の同期を設定
   config.vm.synced_folder ".", "/var/www/", type: "rsync",
     rsync__exclude: [".git/", ".vagrant/", "node_modules/"],
