@@ -4,8 +4,10 @@
 ## 概要
 
 以下のような構成のローカル開発環境を作ります
-- 仮想マシンはシンプルなLAMP環境です。VirtualBox + Vagrant + ansible_localでプロビジョニングします。
-- ホストマシン上にはnode.jsを入れ、シンプルなSASS環境を作ります。
+- 仮想マシンはLAMP環境です
+- 仮想マシンはVirtualBox + Vagrant で構築し、ansible_localでプロビジョニングします
+- ホストマシン上にはnode.jsを入れ、Gulpでのビルド自動実行環境、SASS環境を作ります
+- プロジェクトはGitでバージョン管理します
 
 ![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
@@ -17,7 +19,7 @@
 |Webサーバー|Apache v2.4.6|
 |DBサーバー|MariaDB v10.2.9|
 |言語|PHP v7.0.24|
-|バージョン管理|[Git](https://git-scm.com/downloads)v2.14.1|
+|バージョン管理|Git v2.14.1|
 |CIツール|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
@@ -32,34 +34,50 @@
 
 | 分類 | 内容 |
 |--|--|
-|仮想化ソフト|[ViatualBox](https://www.virtualbox.org/wiki/Downloads) v5.1.28|
-|仮想マシン構築|[Vagrant](https://www.vagrantup.com/downloads.html) v2.0.0|
-|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html) Ansible v2.3.2.0|
+|仮想化ソフト|VirtualBox v5.1.28|
+|仮想マシン構築|Vagrant v2.0.0|
+|インフラ構成管理|ansible_local, Ansible v2.3.2.0|
 
 ===ホストマシン
 
 | 分類 | 内容 |
 |--|--|
 |OS|Windows10|
-|[node.js](https://nodejs.org/en/)|v6.11.4|
-|[npm](https://www.npmjs.com)|v3.10.10|
-|node_modules|全てプロジェクトルートにnpmでローカルインストール<br>[gulp](https://www.npmjs.com/package/gulp) v3.9.1<br>[gulp-sass](https://www.npmjs.com/package/gulp-sass) v3.1.0|
-|バージョン管理|[Git](https://git-scm.com/downloads) v2.14.1|
-|その他ソフト|[Cygwin](https://cygwin.com/install.html)|
+|node.js|v6.11.4|
+|npm|v3.10.10|
+|node_modules|全てプロジェクトルートにnpmでローカルインストール<br>gulp v3.9.1<br>gulp-sass v3.1.0|
+|バージョン管理|Git v2.14.1|
+|その他ソフト|Cygwin(ssh, rsync)|
 
 ## 使い方
 
-【1】仮想マシンを作るための準備
+【1】Gitのインストール
+
+1. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール。(参考: [Gitのインストール](docs/install_git.md))
+2. ユーザー名とメールアドレスを、Gitにグローバル設定する
+```sh
+$ git config --global user.name "任意のユーザ名"
+$ git config --global user.email "任意のメールアドレス"
+```
+3. UTF-8環境で、`ؚ$ git commit`や`$ git status`するとき、ؚ日本語ファイル名が数値エスケープされるのを回避するよう、Gitにグローバル設定する
+```sh
+$ git config --global core.quotepath false
+```
+4. 改行コードを自動変換しないように、Gitにグローバル設定する
+```sh
+$ git config --global core.autocrlf false
+```
+
+【2】仮想マシンを作るための準備
 
 1. ホストマシンに[VirtualBox(v5.1.28)](https://www.virtualbox.org/wiki/Downloads)をインストール
 2. ホストマシンに[Vagrant(v2.0.0)](https://www.vagrantup.com/downloads.html)をインストール
 3. ホストマシンがWindowsの場合、[Cygwin](https://cygwin.com/install.html)のsshとrsyncをインストールし、CygwinにPATHを通す
 4. PCの仮想化支援機能を有効にしておく。PCのメーカーごとによって操作や設定が違うので、各々調べて行ってください。
-5. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール
-6. ホストマシンにプロジェクト用のディレクトリを作り、このリポジトリをgit cloneする
-7. ホストマシンを再起動
+5. ホストマシンにプロジェクト用のディレクトリを作り、このリポジトリをgit cloneする
+6. ホストマシンを再起動
 
-【2】仮想マシンの設定
+【3】仮想マシンの設定
 `Vagrantfile`を編集することで、仮想マシンの設定ができます。
 
 - 仮想マシンのVirtualBoxでの名前、仮想マシンのホスト名を設定する
@@ -71,7 +89,7 @@ v.name = "my.first.lamp"
 config.vm.hostname = "my.first.lamp"
 ```
 
-【3】仮想マシン上のミドルウェアの設定
+【4】仮想マシン上のミドルウェアの設定
 `./ansiblefiles`内のファイル(AnsiblePlaybook)を編集することで、仮想マシン上のミドルウェアの設定ができます。
 
 - 仮想マシン上のDBユーザを設定する
@@ -83,7 +101,7 @@ mysql_password_first: `pass_piyo`
 db_name_first: `db_name_fuga`
 ```
 
-【4】仮想マシンの起動、プロビジョニング、終了など
+【5】仮想マシンの起動、プロビジョニング、終了など
 
 | 目的 | コマンド |
 |--|--|
@@ -93,7 +111,7 @@ db_name_first: `db_name_fuga`
 |仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
 |ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
 
-【5】ホストマシンの環境を整える
+【6】ホストマシンの環境を整える
 
 1. ホストマシンに[node.js(v6.11.4)](https://nodejs.org/en/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
@@ -106,7 +124,7 @@ $ npm install --global gulp-cli
 $ npm install
 ```
 
-【6】gulpの設定、実行
+【7】gulpの設定、実行
 `gulpfile.js`を編集することで、gulpの動作設定ができます。
 
 - gulp-sassの設定をする
@@ -118,15 +136,41 @@ $ npm install
 |特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ gulp taskname`コマンドを打つ|
 |監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
 
-## 解説
+## このファイル・ディレクトリ何？
+| ファイル・ディレクトリ | 内容 |
+|--|--|
+|.git/|Gitの情報を格納しているディレクトリ|
+|.vagrant/|Vagrantが自動生成するディレクトリ|
+|ansiblefiles/|AnsiblePlaybookを格納しているディレクトリ|
+|docs/|my_first_lampのドキュメントを格納してるディレクトリ|
+|html/|/var/www/html/(Webサーバーのルートディレクトリ)、にアップロードするディレクトリ|
+|node_modules/|npmで、package.jsonをもとにローカルインストールしたnode.jsのpackageを格納しているディレクトリ|
+|.gitignore|Gitでバージョン管理から除外するファイル・ディレクトリ、を記述するファイル|
+|gulpfile.js|Gulpの動作を記述するファイル|
+|package.json|node.jsのpackageを管理するためのファイル|
+|Vagrantfile|VagrantとVirtualBoxの設定を記述するファイル|
 
-- .git/
-- .vagrant/
-- ansiblefiles/
-- docs/
-- html/
-- node_modules/
-- .gitignore
-- gulpfile.js
-- package.json
-- Vagrantfile
+## トラブルシューティング
+
+`$vagrant up`できない
+- PCの仮想化支援機能を有効にする。
+
+`$ vagrant rsync-auto`が動作しない
+- Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
+
+## リファレンス
+- [centos/7 Vagrant box](https://app.vagrantup.com/centos/boxes/7)
+- [Apache](http://httpd.apache.org/docs/2.4/ja/)
+- [MariaDB](https://mariadb.com/kb/ja/mariadb/)
+- [php](http://php.net/manual/ja/)
+- [Git](https://git-scm.com/book/ja/v2)
+- [VirtualBox](https://www.virtualbox.org/wiki/Documentation)
+- [Vagrant](https://www.vagrantup.com/docs/index.html)
+- [Ansible](http://docs.ansible.com/ansible/latest/index.html)
+- [node.js](https://nodejs.org/ja/docs/)
+- [npm](https://docs.npmjs.com)
+- [gulp-cli](https://www.npmjs.com/package/gulp-cli)
+- [gulp](https://github.com/gulpjs/gulp/blob/master/docs/API.md)
+- [gulp-sass](https://www.npmjs.com/package/gulp-sass)
+- [SASS](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
+- [Cygwin](https://cygwin.com/cygwin-ug-net.html)
