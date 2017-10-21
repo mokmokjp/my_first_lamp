@@ -49,7 +49,7 @@
 |バージョン管理|Git v2.14.1|
 |その他ソフト|Cygwin(ssh, rsync)|
 
-## 使い方
+## 使い方(基本)
 
 【1】Gitのインストール
 
@@ -151,6 +151,12 @@ WinSCPで仮想マシンに接続する場合
 - ユーザ名: vagrant
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
+
+## 使い方(応用)
+【*】GitHubにgit pushしたら、Slackに通知する
+1. Slackのアカウントを作成する
+2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
+3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
 
 ## このファイル・ディレクトリ何？
 | ファイル・ディレクトリ | 内容 |
