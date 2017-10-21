@@ -15,11 +15,11 @@
 
 | 分類 | 内容 |
 |--|--|
-|OS(VagrantBox)|[centos/7](https://app.vagrantup.com/centos/boxes/7) v1708.01|
-|Webサーバー|Apache v2.4.6|
-|DBサーバー|MariaDB v10.2.9|
-|言語|PHP v7.0.24|
-|バージョン管理|Git v2.14.1|
+|OS(VagrantBox)|[centos/7 Vagrant box](https://app.vagrantup.com/centos/boxes/7) v1708.01|
+|Webサーバー|[Apache](http://httpd.apache.org/docs/2.4/ja/) v2.4.6|
+|DBサーバー|[MariaDB](https://mariadb.com/kb/ja/mariadb/) v10.2.9|
+|言語|[php](http://php.net/manual/ja/) v7.0.24|
+|バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |CIツール|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
@@ -34,20 +34,45 @@
 
 | 分類 | 内容 |
 |--|--|
-|仮想化ソフト|VirtualBox v5.1.28|
-|仮想マシン構築|Vagrant v2.0.0|
-|インフラ構成管理|ansible_local, Ansible v2.3.2.0|
+|仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
+|仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
+|インフラ構成管理|ansible_local, [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
 
 ===ホストマシン
 
 | 分類 | 内容 |
 |--|--|
 |OS|Windows10|
-|node.js|v6.11.4|
-|npm|v3.10.10|
-|node_modules|全てプロジェクトルートにnpmでローカルインストール<br>gulp v3.9.1<br>gulp-sass v3.1.0|
-|バージョン管理|Git v2.14.1|
-|その他ソフト|Cygwin(ssh, rsync)|
+|[node.js](https://nodejs.org/ja/docs/)|v6.11.4|
+|[npm](https://docs.npmjs.com)|v3.10.10|
+|バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
+|node_modules(グローバル)|[gulp-cli](https://www.npmjs.com/package/gulp-cli)|
+|その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
+
+node_modules(npmでプロジェクトルートにローカルインストール)
+| 分類 | 内容 |
+|--|--|
+|[autoprefixer]()|v7.1.5|
+|[babel-core]()|v6.26.0|
+|[babel-preset-env]()|v1.6.1|
+|[browserslist]()|v2.5.1|
+|[gulp](https://github.com/gulpjs/gulp/blob/master/docs/API.md)|v3.9.1|
+|[gulp-babel]()|v7.0.0|
+|[gulp-postcss]()|v7.0.0|
+|[gulp-sass](https://www.npmjs.com/package/gulp-sass)|v3.1.0|
+|[gulp-sourcemaps]()|v2.6.1|
+
+[autoprefixer, babelでサポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)
+| ブラウザ | バージョン |
+|--|--|
+|Chrome|last 1 version|
+|Firefox|last 1 version|
+|Explorer|last 1 version|
+|Edge|last 1 version|
+|Safari|last 1 version|
+|iOS Safari|last 1 version|
+|Android Chrome|last 1 version|
+|Android|last 1 version|
 
 ## 使い方(基本)
 
@@ -127,9 +152,6 @@ $ npm install
 【7】gulpの設定、実行
 `gulpfile.js`を編集することで、gulpの動作設定ができます。
 
-- gulp-sassの設定をする
-`./html/css/*.scss`を変更すると、`.html/css/dest/`にSASSコンパイルされる設定になっています。
-
 | 目的 | コマンド |
 |--|--|
 |デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ gulp`コマンドを打つ|
@@ -142,8 +164,8 @@ html/内のファイルを変更すると
 - rsync-autoで、ホストマシンのhtml/が、仮想マシンのvar/www/html/にアップロードされる
 
 ブラウザで確認
-- ホストマシンのブラウザで、「ホストマシンのローカルIPアドレス/8080」もしくは「192.168.33.10」にアクセスすると、html/index.htmlが表示される
-- LAN内のモバイル端末などで、「ホストマシンのローカルIPアドレス/8080」にアクセスすると同じく表示される
+- ホストマシンのブラウザで、「ホストマシンのローカルIPアドレス:8080」「localhost:8080」「192.168.33.10」にアクセスすると、html/index.htmlが表示される
+- LAN内のモバイル端末などで、「ホストマシンのローカルIPアドレス:8080」にアクセスすると同じく表示される
 
 WinSCPで仮想マシンに接続する場合
 - 転送プロトコル: SFTP
@@ -157,6 +179,7 @@ WinSCPで仮想マシンに接続する場合
 1. Slackのアカウントを作成する
 2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
 3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
+4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
 
 ## このファイル・ディレクトリ何？
 | ファイル・ディレクトリ | 内容 |
@@ -169,7 +192,7 @@ WinSCPで仮想マシンに接続する場合
 |node_modules/|npmで、package.jsonをもとにローカルインストールしたnode.jsのpackageを格納しているディレクトリ|
 |.gitignore|Gitでバージョン管理から除外するファイル・ディレクトリ、を記述するファイル|
 |gulpfile.js|Gulpの動作を記述するファイル|
-|package.json|node.jsのpackageを管理するためのファイル|
+|package.json|node.jsのpackageを管理するためのファイル。autoprefixer, babelでサポートするブラウザもこのファイルに記述。|
 |Vagrantfile|VagrantとVirtualBoxの設定を記述するファイル|
 
 ## トラブルシューティング
@@ -179,20 +202,3 @@ WinSCPで仮想マシンに接続する場合
 
 `$ vagrant rsync-auto`が動作しない
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
-
-## リファレンス
-- [centos/7 Vagrant box](https://app.vagrantup.com/centos/boxes/7)
-- [Apache](http://httpd.apache.org/docs/2.4/ja/)
-- [MariaDB](https://mariadb.com/kb/ja/mariadb/)
-- [php](http://php.net/manual/ja/)
-- [Git](https://git-scm.com/book/ja/v2)
-- [VirtualBox](https://www.virtualbox.org/wiki/Documentation)
-- [Vagrant](https://www.vagrantup.com/docs/index.html)
-- [Ansible](http://docs.ansible.com/ansible/latest/index.html)
-- [node.js](https://nodejs.org/ja/docs/)
-- [npm](https://docs.npmjs.com)
-- [gulp-cli](https://www.npmjs.com/package/gulp-cli)
-- [gulp](https://github.com/gulpjs/gulp/blob/master/docs/API.md)
-- [gulp-sass](https://www.npmjs.com/package/gulp-sass)
-- [SASS](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
-- [Cygwin](https://cygwin.com/cygwin-ug-net.html)
