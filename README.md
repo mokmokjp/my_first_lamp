@@ -6,8 +6,9 @@
 以下のような構成のローカル開発環境を作ります
 - 仮想マシンはLAMP環境です
 - 仮想マシンはVirtualBox + Vagrant で構築し、ansible_localでプロビジョニングします
-- ホストマシン上にはnode.jsを入れ、Gulpでのビルド自動実行環境、SASS環境を作ります
+- ホストマシン上にはnode.jsを入れ、GulpでのSASS・PostCSS・Babel環境を作ります
 - プロジェクトはGitでバージョン管理します
+- GitHubとSlackを連携させます
 
 ![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
@@ -50,31 +51,33 @@
 |その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
 
 node_modules(npmでプロジェクトルートにローカルインストール)
+
 | 分類 | 内容 |
 |--|--|
-|[autoprefixer]()|v7.1.5|
-|[babel-core]()|v6.26.0|
-|[babel-preset-env]()|v1.6.1|
-|[browserslist]()|v2.5.1|
+|[autoprefixer](https://www.npmjs.com/package/autoprefixer)|v7.1.5|
+|[babel-core](https://www.npmjs.com/package/babel-core)|v6.26.0|
+|[babel-preset-env](https://www.npmjs.com/package/babel-preset-env)|v1.6.1|
+|[browserslist](https://www.npmjs.com/package/browserslist)|v2.5.1|
 |[gulp](https://github.com/gulpjs/gulp/blob/master/docs/API.md)|v3.9.1|
-|[gulp-babel]()|v7.0.0|
-|[gulp-postcss]()|v7.0.0|
+|[gulp-babel](https://www.npmjs.com/package/gulp-babel)|v7.0.0|
+|[gulp-postcss](https://www.npmjs.com/package/gulp-postcss)|v7.0.0|
 |[gulp-sass](https://www.npmjs.com/package/gulp-sass)|v3.1.0|
-|[gulp-sourcemaps]()|v2.6.1|
+|[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps)|v2.6.1|
 
 [autoprefixer, babelでサポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)
+
 | ブラウザ | バージョン |
 |--|--|
 |Chrome|last 1 version|
 |Firefox|last 1 version|
-|Explorer|last 1 version|
+|Internet Explorer|last 1 version|
 |Edge|last 1 version|
 |Safari|last 1 version|
 |iOS Safari|last 1 version|
 |Android Chrome|last 1 version|
 |Android|last 1 version|
 
-## 使い方(基本)
+## 使い方
 
 【1】Gitのインストール
 
@@ -174,7 +177,7 @@ WinSCPで仮想マシンに接続する場合
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
 
-## 使い方(応用)
+## カスタマイズ
 【*】GitHubにgit pushしたら、Slackに通知する
 1. Slackのアカウントを作成する
 2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
