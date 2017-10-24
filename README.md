@@ -1,5 +1,5 @@
 
-# my_first_lamp
+# ![my_first_lamp](https://github.com/mokmokjp/my_first_lamp/blob/master/docs/logo.png "my_first_lamp")
 
 ## 概要
 
