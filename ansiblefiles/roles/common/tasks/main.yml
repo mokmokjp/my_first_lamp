@@ -5,7 +5,7 @@
 #     name  : "*"
 #     state : latest
 
-# yum repos
+# yumリポジトリの登録
 - name    : EPELリポジトリをインストール
   yum     :
     name  : epel-release
