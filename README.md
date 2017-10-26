@@ -3,9 +3,9 @@
 
 ## 概要
 
-以下のような構成のローカル開発環境を作るためのボイラープレート
-- 仮想マシンはLAMP環境です
-- 仮想マシンはVirtualBox + Vagrant で構築し、ansible_localでプロビジョニングします
+Web制作・開発環境を作るためのボイラープレート
+- 仮想マシンはLAMP環境で、必要に応じてWordPress等のCMSを入れます
+- 仮想マシンはVirtualBox + Vagrant で構築し、Ansibleでプロビジョニングします
 - ホストマシン上にはnode.jsを入れ、GulpでのSASS・PostCSS・Babel環境を作ります
 - プロジェクトはGitでバージョン管理します
 - GitHubとSlackを連携させます
@@ -37,7 +37,7 @@
 |--|--|
 |仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
 |仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
-|インフラ構成管理|ansible_local, [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
+|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
 
 ===ホストマシン
 
