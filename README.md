@@ -208,7 +208,7 @@ WinSCPで仮想マシンに接続する場合
 
 ## その他
 
-本リポジトリを、チーム開発に適用するメリット
+### 本リポジトリを、チーム開発に適用するメリット
 
 GitでのVersion Control
 - 可視: 開発の履歴が可視化される
@@ -242,3 +242,12 @@ SlackでのChatOPS
 - SASSでCSSを効率よく記述
 - PostCSSで自動でベンダープレフィックスを付与
 - BabelでES6のコードをES5にコンパイル
+
+### 参考書籍
+- [実践 Vagrant](https://www.amazon.co.jp/実践-Vagrant-Mitchell-Hashimoto/dp/4873116651)
+- [Ansible 実践ガイド](https://www.amazon.co.jp/Ansible実践ガイド-impress-top-gear-北山/dp/4295000469)
+- [Jenkins実践入門](https://www.amazon.co.jp/改訂新版Jenkins実践入門-――ビルド・テスト・デプロイを自動化する技術-WEB-PRESS-plus/dp/4774174238/ref=cm_cr_srp_d_product_top?ie=UTF8)
+- [Gitが、おもしろいほどわかる基本の使い方33](https://www.amazon.co.jp/Gitが、おもしろいほどわかる基本の使い方33-大串-肇-ebook/dp/B00Y2FKN9C)
+- [エンジニアのためのGITの教科書](https://www.amazon.co.jp/エンジニアのためのGITの教科書-WEB-Engineer’s-Books-株式会社リクルートテクノロジーズ/dp/4798143669)
+- [DevOps導入指南](https://www.amazon.co.jp/DevOps導入指南-Infrastructure-Codeでチーム開発・サービス運用を効率化する-Engineer’s-Books/dp/4798147605)
+- [Web制作の最新常識](https://www.amazon.co.jp/現場のプロが教えるWeb制作の最新常識-アップデート版-知らないと困るWebの新ルール-久保-知己/dp/484436586X)
