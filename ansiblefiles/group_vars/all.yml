@@ -24,7 +24,7 @@ ntp_servers:
   - jp.pool.ntp.org
 
 # WEBサーバーの設定
-apache_version: 2.4.6
+httpd_version: 2.4.6-67.el7.centos.6
 
 # DBの設定
 mariadb_version: 10.2.9
@@ -35,7 +35,48 @@ mysql_password_first: pass_piyo
 db_name_first: db_name_fuga
 
 # PHPの設定
-php_version: 7.0.24
+php_5_6:
+  version: 5.6
+  repo_url: http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+  enablerepo: remi-php56
+  install_packages:
+    - php
+    - php-cli
+    - php-common
+    - php-dbg
+    - php-devel
+    - php-gd
+    - php-mbstring
+    - php-mcrypt
+    - php-mysqlnd
+    - php-opcache
+    - php-pdo
+    - php-xml
+  config_changes:
+    - regexp: '^;(date.timezone) =.*'
+      line: '\1 = Asia/Tokyo'
+    - regexp: '^;(mbstring.language) =.*'
+      line: '\1 = Japanese'
+    - regexp: '^;(mbstring.internal_encoding) =.*'
+      line: '\1 = UTF-8'
+    - regexp: '^;(mbstring.http_input) =.*'
+      line: '\1 = pass'
+    - regexp: '^;(mbstring.http_output) =.*'
+      line: '\1 = pass'
+    - regexp: '^;(mbstring.encoding_translation) =.*'
+      line: '\1 = off'
+
+# Gitの設定
+git_workspace: /root
+git_version: 2.14.1
+git_enablerepo: ""
+git_packages:
+    - git
+    - git-svn
+git_install_path: "/usr"
+git_install_from_source: true
+git_install_from_source_force_update: true
+git_reinstall_from_source: false
 
 # # phpMyAdminの設定
 # phpMyAdmin:

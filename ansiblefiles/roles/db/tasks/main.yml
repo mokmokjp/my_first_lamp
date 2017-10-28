@@ -1,13 +1,20 @@
 ---
 
+- name          : mariadb.repo.j2ファイルをアップロード
+  template      :
+    src         : mariadb.repo.j2
+    dest        : /etc/yum.repos.d/mariadb.repo
+    owner       : root
+    mode        : 0600
+
 - name          : mariadbをインストール
   yum           :
     name        : "{{ item }}"
     state       : installed
   with_items    :
     - MySQL-python
-    - mariadb
-    - mariadb-server
+    - MariaDB-server
+    - MariaDB-client
     - libselinux-python
     - libsemanage-python
 

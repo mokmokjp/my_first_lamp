@@ -3,7 +3,7 @@
 # Apache
 - name          : httpdインストール
   yum           :
-    name        : httpd
+    name        : httpd-{{ httpd_version }}
     state       : installed
 
 - name          : httpd起動
@@ -13,31 +13,37 @@
     enabled     : yes
 
 # PHP
+- name: phpのリポジトリのインストール
+  yum:
+    name: "{{ php_5_6.repo_url }}"
+    state: installed
+
 - name          : phpと関連パッケージインストール
   yum           :
-    name        : "{{ item }}"
+    name        : "{{ php_5_6.install_packages }}"
+    enablerepo  : "{{ php_5_6.enablerepo }}"
     state       : installed
-    enablerepo  : remi,remi-php70
-  with_items    :
-    - php
-    - php-devel
-    - php-gd
-    - php-intl
-    - php-mbstring
-    - php-mysql
-    - php-pdo
-    - php-pear
-    - php-pgsql
-    - php-PHPMailer
-    - php-process
-    - php-simplepie
-    - php-xml
+
+- name          : /etc/httpd/conf/extra/ ディレクトリを作る
+  shell         : "mkdir /etc/httpd/conf/extra/"
+  ignore_errors : true
+
+- name: httpd-php.confファイルの配置
+  shell: "mv /etc/httpd/conf.d/php.conf /etc/httpd/conf/extra/httpd-php.conf"
+  args:
+    creates: /etc/httpd/conf/extra/httpd-php.conf
+
+- name: httpd-php.confをhttpd.confから読み込む
+  lineinfile:
+    dest: /etc/httpd/conf/httpd.conf
+    line: 'Include conf/extra/httpd-php.conf'
 
 - name          : /etc/php.iniを書き換え
   lineinfile    :
     dest        : /etc/php.ini
     state       : present
     backrefs    : yes
-    regexp      : '^\;date.timezone =$'
-    line        : 'date.timezone = "{{ timezone }}"'    # group_vars/all.yml
+    regexp      : "{{ item.regexp }}"
+    line        : "{{ item.line }}"  # see group_vars/all.yml
+  with_items    : "{{ php_5_6.config_changes }}"
   notify        : httpd再起動

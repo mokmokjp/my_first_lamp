@@ -19,7 +19,7 @@ Web制作・開発環境を作るためのボイラープレート
 |OS(VagrantBox)|[centos/7 Vagrant box](https://app.vagrantup.com/centos/boxes/7) v1708.01|
 |Webサーバー|[Apache](http://httpd.apache.org/docs/2.4/ja/) v2.4.6|
 |DBサーバー|[MariaDB](https://mariadb.com/kb/ja/mariadb/) v10.2.9|
-|言語|[php](http://php.net/manual/ja/) v7.0.24|
+|言語|[php](http://php.net/manual/ja/) v5.6.32|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |CIツール|-|
 |メモリ|2GB|
