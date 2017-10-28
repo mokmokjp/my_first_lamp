@@ -30,7 +30,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "ansible_local" do |ansible|
       ansible.install_mode = "pip"
       ansible.version = "2.3.2.0"
-      ansible.inventory_path = "./ansiblefiles/inventories/local"
+      ansible.inventory_path = "./ansiblefiles/inventories/local.ini"
       ansible.playbook = "./ansiblefiles/site.yml"
       ansible.limit = 'webservers'
     end
