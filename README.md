@@ -184,6 +184,15 @@ WinSCPで仮想マシンに接続する場合
 3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
 4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
 
+【*】.editorconfigファイルの設定をテキストエディタに適用する
+- [Atomの場合](https://atom.io/packages/editorconfig)
+- [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
+- [Emacsの場合](https://github.com/editorconfig/editorconfig-emacs)
+- [PhpStormの場合](https://plugins.jetbrains.com/plugin/7294-editorconfig)
+- [SublimeText3の場合](https://github.com/sindresorhus/editorconfig-sublime)
+- [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
+- [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
+
 ## このファイル・ディレクトリ何？
 | ファイル・ディレクトリ | 内容 |
 |--|--|
@@ -193,6 +202,7 @@ WinSCPで仮想マシンに接続する場合
 |docs/|my_first_lampのドキュメントを格納してるディレクトリ|
 |html/|/var/www/html/(Webサーバーのルートディレクトリ)、にアップロードするディレクトリ|
 |node_modules/|npmで、package.jsonをもとにローカルインストールしたnode.jsのpackageを格納しているディレクトリ|
+|.editorconfig|テキストエディタの設定|
 |.gitignore|Gitでバージョン管理から除外するファイル・ディレクトリ、を記述するファイル|
 |gulpfile.js|Gulpの動作を記述するファイル|
 |package.json|node.jsのpackageを管理するためのファイル。autoprefixer, babelでサポートするブラウザもこのファイルに記述。|
