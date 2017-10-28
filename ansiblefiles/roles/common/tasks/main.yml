@@ -41,9 +41,10 @@
     name  : libselinux-python
     state : installed
 
-- name    : SELinux無効化
-  selinux :
-    state : disabled
+- name          : SELinux無効化
+  selinux       :
+    state       : disabled
+  ignore_errors : true
 
 # ロケール
 - name        : ロケール設定

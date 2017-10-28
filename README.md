@@ -193,6 +193,27 @@ WinSCPで仮想マシンに接続する場合
 - [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
 - [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
 
+【*】本番サーバーのプロビジョニング
+1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
+2. 本番サーバーの管理パネルからCentOs7をインストール
+3. `/ansiblefiles/inventories/remote_production.ini` を編集
+```ini
+[webservers]
+1のIPアドレスを入力
+
+[dbservers]
+1のIPアドレスを入力
+```
+4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げる
+5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
+```sh
+$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
+```
+
+【*】Jenkinsで本番サーバーのデプロイ
+1. 記述中
+
+
 ## このファイル・ディレクトリ何？
 | ファイル・ディレクトリ | 内容 |
 |--|--|
