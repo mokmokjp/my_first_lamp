@@ -1,9 +1,28 @@
 ---
-# yum update
-# - name    : yum update実行
-#   yum     :
-#     name  : "*"
-#     state : latest
+# グループ、ユーザー、権限の設定
+- name       : グループ作成
+  group      :
+    name     : "{{ item.value.groups }}"
+  with_dict  : "{{ linux_newusers }}"  # see group_vars/all.yml
+
+- name       : 新規ユーザー作成
+  user       :
+    name     : "{{ item.key }}"
+    password : "{{ item.value.pass }}"
+    shell    : "{{ item.value.shell }}"
+    home     : /home/"{{ item.key }}"
+    state    : present
+  with_dict  : "{{ linux_newusers }}"  # see group_vars/all.yml
+
+- name       : システム権限の付与
+  template   :
+    src      : "{{ item.value.priv }}_sudoers.j2"
+    dest     : /etc/sudoers.d/{{ item.key }}
+    owner    : root
+    group    : root
+    mode     : 0400
+    validate : 'visudo -c -f %s'  # エラー時には処理を止める
+  with_dict  : "{{ linux_newusers }}"
 
 # yumリポジトリの登録
 - name    : EPELリポジトリをインストール
@@ -26,27 +45,18 @@
   selinux :
     state : disabled
 
-# locale
-- name        : /etc/locale.confを書き換え
-  lineinfile  :
-    dest      : /etc/locale.conf
-    state     : present
-    backrefs  : yes
-    regexp    : '^LANG=\"en_US.UTF-8\"'
-    line      : 'LANG="{{ locale }}"'     # see group_vars/all.yml
+# ロケール
+- name        : ロケール設定
+  command     : localectl set-locale LANG={{ locale }}  # see group_vars/all.yml
 
-# timezone
-- name        : タイムゾーンファイルを/etc/localtimeにコピー
-  copy        :
-    src       : /usr/share/zoneinfo/{{ timezone }}    # see group_vars/all.yml
-    dest      : /etc/localtime
-    owner     : root
-    group     : root
-    mode      : 644
-    force     : yes
-
+# タイムゾーン
 - name        : タイムゾーン設定
-  file        : src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/localtime state=link force=true
+  timezone    :
+    name      : "{{ timezone }}"  # see group_vars/all.yml
+
+# キーボードマップ
+- name        : キーボードマップ設定
+  command     : localectl set-keymap {{ keymap }}  # see group_vars/all.yml
 
 # ntp
 - name      : ntpインストール
@@ -100,10 +110,10 @@
     name      : mlocate
     state     : installed
 
-# - name        : Development toolsをインストール
-#   yum         :
-#     name      : "@Development tools"
-#     state     : installed
+- name        : Development toolsをインストール
+  yum         :
+    name      : "@Development tools"
+    state     : installed
 
 - name        : updatedbコマンド実行
   shell       : updatedb

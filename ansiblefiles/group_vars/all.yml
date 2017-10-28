@@ -1,7 +1,23 @@
 ---
+# ユーザーの設定
+linux_newusers        :
+  my_first_lamp_user  :
+    detail            : 操作用ユーザ
+    groups            : users
+    pass              : "{{ 'ansible' |password_hash('sha256') }}"
+    shell             : /bin/bash
+    priv              : member
+  # my_first_lamp_admin :
+  #   detail            : 管理用ユーザ
+  #   groups            : sys
+  #   pass              : "{{ 'ansible' |password_hash('sha256') }}"
+  #   shell             : /bin/bash
+  #   priv              : admin
+
 # サーバーの初期設定
 locale: ja_JP.UTF-8
 timezone: Asia/Tokyo
+keymap: jp106
 ntp_servers:
   - ntp.nict.jp
   - ntp.jst.mfeed.ad.jp
