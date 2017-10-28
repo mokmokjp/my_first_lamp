@@ -21,6 +21,9 @@ Web制作・開発環境を作るためのボイラープレート
 |DBサーバー|[MariaDB](https://mariadb.com/kb/ja/mariadb/) v10.2.9|
 |言語|[php](http://php.net/manual/ja/) v5.6.32|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
+|仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
+|仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
+|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
 |CIツール|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
@@ -31,13 +34,15 @@ Web制作・開発環境を作るためのボイラープレート
 |DBユーザ|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
 |DB名|`自分で設定`|
 
-===仮想マシンのプロビジョニング
+===本番サーバー
 
 | 分類 | 内容 |
 |--|--|
-|仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
-|仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
-|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
+|IPアドレス|`サーバー会社から告知される`|
+|SSH|ユーザ名: root, パスワード: `サーバー会社から告知される`|
+|SSH|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
+|DBユーザ|ユーザ名: root, パスワード: `自分で設定`|
+|DBユーザ|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
 
 ===ホストマシン
 
@@ -77,9 +82,10 @@ node_modules(npmでプロジェクトルートにローカルインストール)
 |Android Chrome|last 1 version|
 |Android|last 1 version|
 
+
 ## 使い方
 
-【1】Gitのインストール
+【1】ホストマシンにGitのインストール
 
 1. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール。(参考: [Gitのインストール](docs/install_git.md))
 2. ユーザー名とメールアドレスを、Gitにグローバル設定する
@@ -117,16 +123,21 @@ v.name = "my.first.lamp"
 config.vm.hostname = "my.first.lamp"
 ```
 
-【4】仮想マシン上のミドルウェアの設定
-`./ansiblefiles`内のファイル(AnsiblePlaybook)を編集することで、仮想マシン上のミドルウェアの設定ができます。
-
-- 仮想マシン上のDBユーザを設定する
-次のファイルを編集 `./ansiblefiles/roles/db/tasks/main.yml`:
+【4】SSHユーザー、DBユーザー、DBネームの設定
+次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
 ```yml
-mysql_root_password: `pass_root`
-mysql_user_first: `user_hoge`
-mysql_password_first: `pass_piyo`
-db_name_first: `db_name_fuga`
+linux_newusers        :
+  `自分で設定`         :
+    detail            : 操作用ユーザ
+    groups            : users
+    pass              : "{{ '`自分で設定`' |password_hash('sha256') }}"
+    shell             : /bin/bash
+    priv              : member
+...
+mysql_root_password: `自分で設定`
+mysql_user_first: `自分で設定`
+mysql_password_first: `自分で設定`
+db_name_first: `自分で設定`
 ```
 
 【5】仮想マシンの起動、プロビジョニング、終了など
@@ -199,10 +210,10 @@ WinSCPで仮想マシンに接続する場合
 3. `/ansiblefiles/inventories/remote_production.ini` を編集
 ```ini
 [webservers]
-1のIPアドレスを入力
+`1のIPアドレスを入力`
 
 [dbservers]
-1のIPアドレスを入力
+`1のIPアドレスを入力`
 ```
 4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げる
 5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力

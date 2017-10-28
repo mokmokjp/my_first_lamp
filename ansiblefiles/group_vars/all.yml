@@ -1,10 +1,10 @@
 ---
 # ユーザーの設定
 linux_newusers        :
-  my_first_lamp_user  :
+  自分で設定           :
     detail            : 操作用ユーザ
     groups            : users
-    pass              : "{{ 'ansible' |password_hash('sha256') }}"
+    pass              : "{{ '自分で設定' |password_hash('sha256') }}"
     shell             : /bin/bash
     priv              : member
   # my_first_lamp_admin :
@@ -29,10 +29,10 @@ httpd_version: 2.4.6-67.el7.centos.6
 # DBの設定
 mariadb_version: 10.2.9
 db_memory: 1536M
-mysql_root_password: pass_root
-mysql_user_first: user_hoge
-mysql_password_first: pass_piyo
-db_name_first: db_name_fuga
+mysql_root_password: 自分で設定
+mysql_user_first: 自分で設定
+mysql_password_first: 自分で設定
+db_name_first: 自分で設定
 
 # PHPの設定
 php_5_6:
