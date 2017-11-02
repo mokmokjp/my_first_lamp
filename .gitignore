@@ -2,6 +2,9 @@
 ################ Ansible ################
 *.retry
 
+################ composer ################
+composer.phar
+/vendor/
 
 ################ Mac OS ################
 # General
@@ -145,7 +148,7 @@ GitHub.sublime-settings
 .vagrant/
 
 # Log files (if you are creating logs in debug mode, uncomment this)
-# *.logs
+*.logs
 
 
 ################ Windows ################
@@ -178,3 +181,22 @@ dest/
 
 # ドキュメント
 docs/*.psd
+
+# EC-CUBE 2.13系
+*.cache
+*.log
+/data/config/config.php
+/data/cache/*
+/data/Smarty/templates_c/*
+/html/plugin/*
+/html/install/temp/*
+/html/upload/save_image/*
+/html/upload/temp_image/*
+/html/upload/temp_plugin/*
+/html/template/*
+!/html/template/admin
+!/html/template/default
+!/html/template/install
+/phpunit.xml
+/tests/tmp/*
+/reports/*
