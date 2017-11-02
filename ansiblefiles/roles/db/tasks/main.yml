@@ -78,21 +78,20 @@
     owner       : root
     mode        : 0600
 
-# - name          : データベースを作成
-#   mysql_db      :
-#     name        : "{{ db_name_first }}"
-#     state       : present
+- name          : データベースを作成
+  mysql_db      :
+    name        : "{{ db_name_first }}"
+    state       : present
 
-# - name          : MySQLユーザーを作成
-#   mysql_user    :
-#     name        : "{{ mysql_user_first }}"
-#     host        : "{{ item }}"
-#     password    : "{{ mysql_password_first }}"
-#     priv        : "{{ db_name_first }}.*:ALL,GRANT"
-#     state       : present
-#   with_items    :
-#       - localhost
-#       - 192.168.10.%
+- name          : MySQLユーザーを作成
+  mysql_user    :
+    name        : "{{ mysql_user_first }}"
+    host        : "{{ item }}"
+    password    : "{{ mysql_password_first }}"
+    priv        : "{{ db_name_first }}.*:ALL,GRANT"
+    state       : present
+  with_items    :
+      - localhost
 
 # - name            : phpMyAdmin をダウンロード
 #   get_url         :

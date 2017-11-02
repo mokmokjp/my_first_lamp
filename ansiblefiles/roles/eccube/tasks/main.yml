@@ -1,2 +1,25 @@
 ---
 
+- name          : eccubeのディレクトリパーミッション設定
+  file          :
+    path        : "{{ item }}"
+    mode        : 777
+    recurse     : yes
+  with_items    :
+    - /var/www/data/
+    - /var/www/html/
+
+- name          : データベースを作成
+  mysql_db      :
+    name        : "{{ db_name_eccube }}"
+    state       : present
+
+- name          : MySQLユーザーを作成
+  mysql_user    :
+    name        : "{{ mysql_user_eccube }}"
+    host        : "{{ item }}"
+    password    : "{{ mysql_password_eccube }}"
+    priv        : "{{ db_name_first }}.*:ALL,GRANT"
+    state       : present
+  with_items    :
+      - localhost
