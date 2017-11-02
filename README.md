@@ -112,15 +112,13 @@ $ git config --global core.autocrlf false
 6. ホストマシンを再起動
 
 【3】仮想マシンの設定
-`Vagrantfile`を編集することで、仮想マシンの設定ができます。
-
-- 仮想マシンのVirtualBoxでの名前、仮想マシンのホスト名を設定する
+仮想マシンのVirtualBoxでの名前、仮想マシンのホスト名を設定する
 次のファイルを編集 `Vagrantfile`:
 ```text
-v.name = "my.first.lamp"
+v.name = "`自分で設定`"
 ```
 ```text
-config.vm.hostname = "my.first.lamp"
+config.vm.hostname = "`自分で設定`"
 ```
 
 【4】SSHユーザー、DBユーザー、DBネームの設定
@@ -150,7 +148,7 @@ db_name_first: `自分で設定`
 |仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
 |ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
 
-【6】ホストマシンの環境を整える
+【6】ホストマシンのフロントエンド開発環境を整える
 
 1. ホストマシンに[node.js(v6.11.4)](https://nodejs.org/en/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
@@ -221,6 +219,15 @@ WinSCPで仮想マシンに接続する場合
 $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
 ```
 
+【*】EC-CUBE2.X系のインストール
+1. ホストマシンでbat/download_eccube.bat を実行する
+2. `ansiblefiles/site.yml`の`eccube`をコメントインさせる
+3. ホストマシンで`$ git commit`しておく
+4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant provision`でプロビジョニングをしておく
+5. ホストマシンで、`$ vagrant rsync-auto`で仮想マシンにソースコードをアップロード
+6. ブラウザで「192.168.33.10/install/」にアクセス
+7. 画面の指示に従ってインストールを行う
+
 【*】Jenkinsで本番サーバーのデプロイ
 1. 記述中
 
@@ -244,6 +251,7 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 
 `$vagrant up`できない
 - PCの仮想化支援機能を有効にする。
+- ディレクトリ・ファイル名に日本語が含まれていたら、英数に治す
 
 `$ vagrant rsync-auto`が動作しない
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
