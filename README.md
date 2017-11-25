@@ -201,7 +201,6 @@ WinSCPで仮想マシンに接続する場合
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
 
-## カスタマイズ
 【*】GitHubにgit pushしたら、Slackに通知する
 1. Slackのアカウントを作成する
 2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
@@ -219,7 +218,7 @@ WinSCPで仮想マシンに接続する場合
 
 【*】本番サーバーのプロビジョニング
 1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
-2. 本番サーバーの管理パネルからCentOs7をインストール
+2. 本番サーバーの管理パネルからCentOs6をインストール
 3. `/ansiblefiles/inventories/remote_production.ini` を編集
 ```ini
 [webservers]
@@ -228,7 +227,7 @@ WinSCPで仮想マシンに接続する場合
 [dbservers]
 `1のIPアドレスを入力`
 ```
-4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げる
+4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
 5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
 ```sh
 $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
