@@ -14,10 +14,10 @@ trim_trailing_whitespace = false
 indent_style = tab
 indent_size = 4
 
-[*.{js,yml}]
+[*.{js,json,yml}]
 indent_style = space
 indent_size = 2
 
-[*.{php,json,ini}]
+[*.{php,ini}]
 indent_style = space
 indent_size = 4
