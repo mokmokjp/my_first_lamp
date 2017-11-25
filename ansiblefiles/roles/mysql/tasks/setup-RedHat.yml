@@ -1,0 +1,16 @@
+---
+- name: install mysql repo
+  yum:
+    name: "{{ mysql_repo_url }}"
+    state: installed
+
+- name: Ensure MySQL packages are installed.
+  yum:
+    name       : "{{ item }}"
+    enablerepo : "{{ mysql_enablerepo }}"
+    state      : installed
+  with_items: "{{ mysql_packages }}"
+  register: rh_mysql_install_packages
+
+- name: Ensure MySQL Python libraries are installed.
+  yum: "name=MySQL-python state=installed enablerepo={{ mysql_enablerepo }}"

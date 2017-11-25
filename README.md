@@ -16,14 +16,14 @@ Web制作・開発環境を作るためのボイラープレート
 
 | 分類 | 内容 |
 |--|--|
-|OS(VagrantBox)|[centos/7 Vagrant box](https://app.vagrantup.com/centos/boxes/7) v1708.01|
-|Webサーバー|[Apache](http://httpd.apache.org/docs/2.4/ja/) v2.4.6|
-|DBサーバー|[MariaDB](https://mariadb.com/kb/ja/mariadb/) v10.2.9|
+|OS(VagrantBox)|[bento/centos-6.7 Vagrant box](https://app.vagrantup.com/bento/boxes/centos-6.7) v2.2.7|
+|Webサーバー|[Apache](http://httpd.apache.org/docs/2.2/ja/) v2.2.15-60|
+|DBサーバー|[MySQL](https://dev.mysql.com/doc/refman/5.6/ja/) v5.6|
 |言語|[php](http://php.net/manual/ja/) v5.6.32|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
 |仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
-|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) v2.3.2.0|
+|インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) 最新版|
 |CIツール|-|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
@@ -132,10 +132,25 @@ linux_newusers        :
     shell             : /bin/bash
     priv              : member
 ...
+mysql_user_home: /root
+mysql_user_name: root
+mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
+...
+mysql_root_home: /root
+mysql_root_username: root
 mysql_root_password: `自分で設定`
-mysql_user_first: `自分で設定`
-mysql_password_first: `自分で設定`
-db_name_first: `自分で設定`
+...
+mysql_databases:
+   - name: `自分で設定`
+     collation: utf8_general_ci
+     encoding: utf8
+     replicate: 1
+...
+mysql_users:
+   - name: `自分で設定`
+     host: localhost
+     password: `自分で設定`
+     priv: "*.*:USAGE"
 ```
 
 【5】仮想マシンの起動、プロビジョニング、終了など

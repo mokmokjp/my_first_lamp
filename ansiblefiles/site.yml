@@ -3,8 +3,11 @@
   hosts: webservers
   become: yes
   roles:
-    - common
-    - web
-    - db
-    # - eccube
-    # - wordpress
+    - centos6
+    - git
+    - apache
+    - mysql
+    - php
+    # - composer
+    # - phpmyadmin
+    # - jenkins

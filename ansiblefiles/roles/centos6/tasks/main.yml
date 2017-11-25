@@ -1,0 +1,125 @@
+---
+# selinux
+- name    : libselinux-pythonインストール
+  yum     :
+    name  : libselinux-python
+    state : installed
+
+- name          : SELinux無効化
+  selinux       :
+    state       : disabled
+  ignore_errors : true
+
+# グループ、ユーザー、権限の設定
+- name       : グループ作成
+  group      :
+    name     : "{{ item.value.groups }}"
+  with_dict  : "{{ linux_newusers }}"  # see group_vars/all.yml
+
+- name       : 新規ユーザー作成
+  user       :
+    name     : "{{ item.key }}"
+    password : "{{ item.value.pass }}"
+    shell    : "{{ item.value.shell }}"
+    home     : /home/"{{ item.key }}"
+    state    : present
+  with_dict  : "{{ linux_newusers }}"  # see group_vars/all.yml
+
+- name       : システム権限の付与
+  template   :
+    src      : "{{ item.value.priv }}_sudoers.j2"
+    dest     : /etc/sudoers.d/{{ item.key }}
+    owner    : root
+    group    : root
+    mode     : 0400
+    validate : 'visudo -c -f %s'  # エラー時には処理を止める
+  with_dict  : "{{ linux_newusers }}"
+
+# yumリポジトリの登録
+- name    : EPELリポジトリをインストール
+  yum     :
+    name  : epel-release
+    state : installed
+
+- name    : Remiリポジトリをインストール
+  yum     :
+    name  : http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+    state : installed
+
+# ロケール
+- name        : /etc/sysconfig/i18nを書き換え
+  lineinfile  :
+    dest      : /etc/sysconfig/i18n
+    state     : present
+    backrefs  : yes
+    regexp    : '^LANG=\"en_US.UTF-8\"'
+    line      : 'LANG="{{ locale }}"'     # see group_vars/all.yml
+
+# タイムゾーン
+- name        : タイムゾーン設定
+  timezone    :
+    name      : "{{ timezone }}"  # see group_vars/all.yml
+
+# キーボードマップ
+# - name        : キーボードマップ設定
+  # command     : localectl set-keymap {{ keymap }}  # see group_vars/all.yml
+
+# ntp
+- name      : ntpインストール
+  yum       :
+    name    : ntp
+    state   : installed
+
+- name      : ntpdが起動中か確認
+  shell     : "service ntpd status | grep -q 停止; echo $?"
+  register  : result
+
+- name      : ntpdate実行 (ntpd停止中の場合)
+  command   : ntpdate {{ ntp_servers.0 }}       # see group_vars/all.yml
+  when      : result.stdout == "0"
+
+- name      : テンプレートを/etc/ntp.confにコピー
+  notify    : ntpd再起動
+  template  :
+    src     : ntp.conf.j2
+    dest    : /etc/ntp.conf
+
+- name      : ntpd起動
+  service   :
+    name    : ntpd
+    state   : started
+    enabled : yes
+
+# utility tools
+- name        : wgetをインストール
+  yum         :
+    name      : wget
+    state     : installed
+
+- name        : vim-enhancedをインストール
+  yum         :
+    name      : vim-enhanced
+    state     : installed
+
+- name        : nkfをインストール
+  yum         :
+    name      : nkf
+    state     : installed
+
+- name        : treeをインストール
+  yum         :
+    name      : tree
+    state     : installed
+
+- name        : mlocateをインストール
+  yum         :
+    name      : mlocate
+    state     : installed
+
+- name        : Development toolsをインストール
+  yum         :
+    name      : "@Development tools"
+    state     : installed
+
+- name        : updatedbコマンド実行
+  shell       : updatedb

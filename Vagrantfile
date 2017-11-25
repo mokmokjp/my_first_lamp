@@ -12,8 +12,8 @@ Vagrant.configure(2) do |config|
       # v.gui = true
   end
   # ボックス(OS)
-  config.vm.box = "centos/7"
-  config.vm.box_version = "1708.01"
+  config.vm.box = "bento/centos-6.7"
+  config.vm.box_version = "2.2.7"
   # ホスト名
   config.vm.hostname = "自分で設定"
   # 仮想マシンに静的IPアドレスを割り当て
@@ -24,12 +24,13 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/var/www/", type: "rsync",
     rsync__exclude: [".git/", ".vagrant/", "node_modules/"],
     rsync__auto: true
+  config.vm.synced_folder "./ansiblefiles", "/vagrant/ansiblefiles/", type: "rsync",
+    rsync__auto: true
   # ansible_localを使い、プロビジョニングを実行
   # vagrant up, vagrant provision実行時のみ通るようにする
   if ARGV[0] == "up" || ARGV[0] == "provision" then
     config.vm.provision "ansible_local" do |ansible|
-      ansible.install_mode = "pip"
-      ansible.version = "2.3.2.0"
+      ansible.install_mode = "default"
       ansible.inventory_path = "./ansiblefiles/inventories/local.ini"
       ansible.playbook = "./ansiblefiles/site.yml"
       ansible.limit = 'webservers'

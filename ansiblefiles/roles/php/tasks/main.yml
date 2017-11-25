@@ -1,17 +1,4 @@
 ---
-
-# Apache
-- name          : httpdインストール
-  yum           :
-    name        : httpd-{{ httpd_version }}
-    state       : installed
-
-- name          : httpd起動
-  service       :
-    name        : httpd
-    state       : started
-    enabled     : yes
-
 # PHP
 - name: phpのリポジトリのインストール
   yum:
