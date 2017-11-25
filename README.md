@@ -235,7 +235,7 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 ```
 
 【*】EC-CUBE2.X系のインストール
-1. ホストマシンでbat/download_eccube.bat を実行する
+1. ./data/ディレクトリと、./html/ディレクトリがある場合は削除してから、ホストマシンでbat/download_eccube.bat を実行する
 2. `ansiblefiles/site.yml`の`eccube`をコメントインさせる
 3. ホストマシンで`$ git commit`しておく
 4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant provision`でプロビジョニングをしておく
