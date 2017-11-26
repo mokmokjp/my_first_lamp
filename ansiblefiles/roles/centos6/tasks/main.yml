@@ -56,9 +56,23 @@
     line      : 'LANG="{{ locale }}"'     # see group_vars/all.yml
 
 # タイムゾーン
-- name        : タイムゾーン設定
-  timezone    :
-    name      : "{{ timezone }}"  # see group_vars/all.yml
+- name        : タイムゾーンファイルを/etc/localtimeにコピー
+  copy        :
+    src       : /usr/share/zoneinfo/{{ timezone }}    # see group_vars/all.yml
+    dest      : /etc/localtime
+    owner     : root
+    group     : root
+    mode      : 644
+    force     : yes
+
+- name        : /etc/sysconfig/clockを書き換え
+  lineinfile  :
+    dest      : /etc/sysconfig/clock
+    state     : present
+    backrefs  : yes
+    regexp    : '^ZONE=\"UTC\"'
+    line      : 'ZONE="{{ timezone }}"'
+  ignore_errors : true
 
 # キーボードマップ
 # - name        : キーボードマップ設定
