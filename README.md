@@ -52,7 +52,6 @@ Web制作・開発環境を作るためのボイラープレート
 |[node.js](https://nodejs.org/ja/docs/)|v6.11.4|
 |[npm](https://docs.npmjs.com)|v3.10.10|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
-|node_modules(グローバル)|[gulp-cli](https://www.npmjs.com/package/gulp-cli)|
 |その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
 
 node_modules(npmでプロジェクトルートにローカルインストール)
@@ -167,11 +166,7 @@ mysql_users:
 
 1. ホストマシンに[node.js(v6.11.4)](https://nodejs.org/en/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
-3. ホストマシンにnpmでgulp-cliをグローバルインストール
-```sh
-$ npm install --global gulp-cli
-```
-4. package.jsonファイルの内容に基づき、npmで必要なものをプロジェクトルートにローカルインストール。ホストマシンのプロジェクトルートで、以下コマンドを実行。
+3. package.jsonファイルの内容に基づき、npmで必要なものをプロジェクトルートにローカルインストール。ホストマシンのプロジェクトルートで、以下コマンドを実行。
 ```sh
 $ npm install
 ```
@@ -181,8 +176,8 @@ $ npm install
 
 | 目的 | コマンド |
 |--|--|
-|デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ gulp`コマンドを打つ|
-|特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ gulp taskname`コマンドを打つ|
+|デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp`コマンドを打つ|
+|特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp taskname`コマンドを打つ|
 |監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
 
 【8】開発
