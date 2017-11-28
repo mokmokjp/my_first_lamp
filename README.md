@@ -49,8 +49,8 @@ Web制作・開発環境を作るためのボイラープレート
 | 分類 | 内容 |
 |--|--|
 |OS|Windows10|
-|[node.js](https://nodejs.org/ja/docs/)|v6.11.4|
-|[npm](https://docs.npmjs.com)|v3.10.10|
+|[node.js](https://nodejs.org/ja/docs/)|v8.9.1|
+|[npm](https://docs.npmjs.com)|v5.5.1|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
 
@@ -61,14 +61,26 @@ node_modules(npmでプロジェクトルートにローカルインストール)
 |[autoprefixer](https://www.npmjs.com/package/autoprefixer)|v7.1.5|
 |[babel-core](https://www.npmjs.com/package/babel-core)|v6.26.0|
 |[babel-preset-env](https://www.npmjs.com/package/babel-preset-env)|v1.6.1|
-|[browserslist](https://www.npmjs.com/package/browserslist)|v2.5.1|
 |[gulp](https://github.com/gulpjs/gulp/blob/master/docs/API.md)|v3.9.1|
 |[gulp-babel](https://www.npmjs.com/package/gulp-babel)|v7.0.0|
+|[gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css)|v3.9.0|
+|[gulp-concat](https://www.npmjs.com/package/gulp-concat)|v2.6.1|
+|[gulp-eslint](https://www.npmjs.com/package/gulp-eslint)|v4.0.0|
 |[gulp-postcss](https://www.npmjs.com/package/gulp-postcss)|v7.0.0|
 |[gulp-sass](https://www.npmjs.com/package/gulp-sass)|v3.1.0|
 |[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps)|v2.6.1|
+|[gulp-uglify](https://www.npmjs.com/package/gulp-uglify)|v3.0.0|
+|[postcss-reporter](https://www.npmjs.com/package/postcss-reporter)|v5.0.0|
+|[postcss-sass](https://www.npmjs.com/package/postcss-sass)|v0.2.0|
+|[stylelint](https://www.npmjs.com/package/stylelint)|v8.2.0|
 
-[autoprefixer, babelでサポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)
+gulpのビルド設定(全てgulpfile.jsに記述)
+| 分類 | 内容 |
+|--|--|
+|autoprefixer|[サポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)|
+|stylelint|略|
+|babel|[サポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions), ES2017使用|
+|eslint|ES2017使用|
 
 | ブラウザ | バージョン |
 |--|--|
@@ -164,7 +176,7 @@ mysql_users:
 
 【6】ホストマシンのフロントエンド開発環境を整える
 
-1. ホストマシンに[node.js(v6.11.4)](https://nodejs.org/en/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
+1. ホストマシンに[node.js(v8.9.1)](https://nodejs.org/ja/download/releases/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
 3. package.jsonファイルの内容に基づき、npmで必要なものをプロジェクトルートにローカルインストール。ホストマシンのプロジェクトルートで、以下コマンドを実行。
 ```sh
@@ -252,8 +264,11 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 |node_modules/|npmで、package.jsonをもとにローカルインストールしたnode.jsのpackageを格納しているディレクトリ|
 |.editorconfig|テキストエディタの設定|
 |.gitignore|Gitでバージョン管理から除外するファイル・ディレクトリ、を記述するファイル|
-|gulpfile.js|Gulpの動作を記述するファイル|
-|package.json|node.jsのpackageを管理するためのファイル。autoprefixer, babelでサポートするブラウザもこのファイルに記述。|
+|gulpfile.js|Gulpの動作を記述するファイル。autoprefixer, stylelint, babel, eslintの設定もこのファイルに記述しています。|
+|composer.json|composerのpackageを管理するためのファイル|
+|composer.lock|composerのpackageを管理するためのファイル|
+|package-lock.json|node.jsのpackageを管理するためのファイル|
+|package.json|node.jsのpackageを管理するためのファイル|
 |Vagrantfile|VagrantとVirtualBoxの設定を記述するファイル|
 
 ## トラブルシューティング

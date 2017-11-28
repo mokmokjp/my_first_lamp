@@ -4,23 +4,19 @@
     "autoprefixer": "^7.1.5",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "browserslist": "^2.5.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^4.0.0",
     "gulp-postcss": "^7.0.0",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.1"
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "postcss-reporter": "^5.0.0",
+    "postcss-sass": "^0.2.0",
+    "stylelint": "^8.2.0"
   },
-  "browserslist": [
-    "last 1 Chrome versions",
-    "last 1 Firefox versions",
-    "last 1 Explorer versions",
-    "last 1 Edge versions",
-    "last 1 Safari versions",
-    "last 1 ios_saf versions",
-    "last 1 and_chr versions",
-    "last 1 Android versions"
-  ],
   "scripts": {
     "gulp": "gulp --gulpfile gulpfile.js"
   },
