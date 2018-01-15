@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080
   # ホストOSのディレクトリから、仮想マシン上のディレクトリへの一方向の同期を設定
   config.vm.synced_folder ".", "/var/www/", type: "rsync",
-    rsync__exclude: [".git/", ".vagrant/", "node_modules/"],
+    rsync__exclude: [".git/", ".vagrant/", "ansiblefiles/", "node_modules/"],
     rsync__auto: true
   config.vm.synced_folder "./ansiblefiles", "/vagrant/ansiblefiles/", type: "rsync",
     rsync__auto: true
