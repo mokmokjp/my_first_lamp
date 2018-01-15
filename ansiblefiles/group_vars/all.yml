@@ -2,10 +2,10 @@
 ######################### Linuxサーバー設定 #########################
 # Linuxユーザーの設定
 linux_newusers        :
-  自分で設定           :
+  my_first_lamp_user  :
     detail            : 操作用ユーザ
     groups            : users
-    pass              : "{{ '自分で設定' |password_hash('sha256') }}"
+    pass              : "{{ 'my_first_lamp_pass' |password_hash('sha256') }}"
     shell             : /bin/bash
     priv              : member
   # my_first_lamp_admin :
@@ -47,12 +47,12 @@ httpd_version: 2.2.15-60.el6.centos.6
 # or sudo access
 mysql_user_home: /root
 mysql_user_name: root
-mysql_user_password: 自分で設定
+mysql_user_password: root_pass
 
 # The default root user installed by mysql - almost always root
 mysql_root_home: /root
 mysql_root_username: root
-mysql_root_password: 自分で設定
+mysql_root_password: root_pass
 
 # Set this to `yes` to forcibly update the root password.
 mysql_root_password_update: no
@@ -147,16 +147,16 @@ mysql_config_include_files: []
 
 # Databases.
 mysql_databases:
-  - name: 自分で設定
+  - name: my_first_lamp_db
     collation: utf8_general_ci
     encoding: utf8
     replicate: 1
 
 # Users.
 mysql_users:
-  - name: 自分で設定
+  - name: my_first_lamp_db_user
     host: localhost
-    password: 自分で設定
+    password: my_first_lamp_db_user_pass
     priv: "*.*:USAGE"
 
 # Replication settings (replication is only enabled if master/user have values).

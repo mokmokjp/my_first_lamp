@@ -24,7 +24,7 @@ Web制作・開発環境を作るためのボイラープレート
 |仮想化ソフト|[VirtualBox](https://www.virtualbox.org/wiki/Documentation) v5.1.28|
 |仮想マシン構築|[Vagrant](https://www.vagrantup.com/docs/index.html) v2.0.0|
 |インフラ構成管理|[ansible_local](https://www.vagrantup.com/docs/provisioning/ansible_local.html), [Ansible](http://docs.ansible.com/ansible/latest/index.html) 最新版|
-|CIツール|-|
+|CIツール|[Jenkins](https://jenkins.io) v1.644|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
 |IPアドレス|192.168.33.10|
@@ -130,6 +130,9 @@ v.name = "`自分で設定`"
 ```
 ```text
 config.vm.hostname = "`自分で設定`"
+```
+```text
+  config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
 【4】SSHユーザー、DBユーザー、DBネームの設定
@@ -249,8 +252,8 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 6. ブラウザで「192.168.33.10/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
 
-【*】Jenkinsで本番サーバーのデプロイ
-1. 記述中
+【*】Jenkinsでデプロイ
+1. 仮想マシン上のJenkinsには「192.168.33.10:8081」でアクセスできる
 
 
 ## このファイル・ディレクトリ何？

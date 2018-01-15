@@ -5,7 +5,7 @@
 Vagrant.configure(2) do |config|
   # VirtualBoxの設定
   config.vm.provider :virtualbox do |v|
-    v.name = "自分で設定"
+    v.name = "myfirstlamp"
     v.customize ["modifyvm", :id, "--memory", 2048]
     v.customize ["modifyvm", :id, "--cableconnected1", "on"]
       # GUIを表示
@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "bento/centos-6.7"
   config.vm.box_version = "2.2.7"
   # ホスト名
-  config.vm.hostname = "自分で設定"
+  config.vm.hostname = "myfirstlamp"
   # 仮想マシンに静的IPアドレスを割り当て
   config.vm.network "private_network", ip: "192.168.33.10"
   # ポートフォワーディング
