@@ -42,6 +42,7 @@ httpd_version: 2.2.15-60.el6.centos.6
 
 ######################### DBの設定 #########################
 # https://github.com/geerlingguy/ansible-role-mysql
+
 # Set this to the user ansible is logging in as - should have root
 # or sudo access
 mysql_user_home: /root
@@ -218,6 +219,15 @@ php_5_6:
 #     - regexp: "^(.*blowfish_secret.*) = .*"
 #       line: "\\1 = '7750';"
 
+######################### Javaの設定 #########################
+# https://github.com/geerlingguy/ansible-role-java
+
+# Set java_packages if you would like to use a different version than the
+# default (OpenJDK 1.7).
+# java_packages: []
+
+java_home: ""
+
 ######################### Jenkinsの設定 #########################
 # https://github.com/geerlingguy/ansible-role-jenkins
 
@@ -233,7 +243,7 @@ jenkins_connection_delay: 5
 jenkins_connection_retries: 60
 jenkins_home: /var/lib/jenkins
 jenkins_hostname: localhost
-jenkins_http_port: 8080
+jenkins_http_port: 8081
 jenkins_jar_location: /opt/jenkins-cli.jar
 jenkins_url_prefix: ""
 jenkins_java_options: "-Djenkins.install.runSetupWizard=false"

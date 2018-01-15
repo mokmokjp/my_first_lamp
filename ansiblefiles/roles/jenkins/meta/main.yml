@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - geerlingguy.java
+  - java
 
 galaxy_info:
   author: geerlingguy
