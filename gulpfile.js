@@ -47,9 +47,6 @@ var autoprefixer_config = {
 // https://stylelint.io/user-guide/rules/
 var stylelint_config = {
   rules: {
-    'color-hex-case': [ 'lower', {
-      'message': '色は小文字で記述してください'
-    } ],
     'color-hex-length': [ 'long', {
       'message': '色は#000000形式で記述してください'
     } ]
