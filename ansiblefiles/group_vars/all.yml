@@ -3,7 +3,7 @@
 # Linuxユーザーの設定
 linux_newusers        :
   my_first_lamp_user  :
-    detail            : 操作用ユーザ
+    detail            : my_first_lamp_user
     groups            : users
     pass              : "{{ 'my_first_lamp_pass' |password_hash('sha256') }}"
     shell             : /bin/bash
