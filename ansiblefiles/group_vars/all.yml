@@ -1,5 +1,6 @@
 ---
-######################### Linuxユーザーの設定 #########################
+######################### Linuxサーバー設定 #########################
+# Linuxユーザーの設定
 linux_newusers        :
   自分で設定           :
     detail            : 操作用ユーザ
@@ -14,7 +15,7 @@ linux_newusers        :
   #   shell             : /bin/bash
   #   priv              : admin
 
-######################### サーバーの初期設定 #########################
+# 日本に合わせた設定にする
 locale: ja_JP.UTF-8
 timezone: Asia/Tokyo
 keymap: jp106
@@ -23,10 +24,24 @@ ntp_servers:
   - ntp.jst.mfeed.ad.jp
   - jp.pool.ntp.org
 
+######################### Gitの設定 #########################
+# https://github.com/geerlingguy/ansible-role-git
+git_workspace: /root
+git_version: 2.14.1
+git_enablerepo: ""
+git_packages:
+    - git
+    - git-svn
+git_install_path: "/usr"
+git_install_from_source: true
+git_install_from_source_force_update: true
+git_reinstall_from_source: false
+
 ######################### WEBサーバーの設定 #########################
 httpd_version: 2.2.15-60.el6.centos.6
 
 ######################### DBの設定 #########################
+# https://github.com/geerlingguy/ansible-role-mysql
 # Set this to the user ansible is logging in as - should have root
 # or sudo access
 mysql_user_home: /root
@@ -203,14 +218,43 @@ php_5_6:
 #     - regexp: "^(.*blowfish_secret.*) = .*"
 #       line: "\\1 = '7750';"
 
-######################### Gitの設定 #########################
-git_workspace: /root
-git_version: 2.14.1
-git_enablerepo: ""
-git_packages:
-    - git
-    - git-svn
-git_install_path: "/usr"
-git_install_from_source: true
-git_install_from_source_force_update: true
-git_reinstall_from_source: false
+######################### Jenkinsの設定 #########################
+# https://github.com/geerlingguy/ansible-role-jenkins
+
+# Optional method of pinning a specific version of Jenkins and/or overriding the
+# default Jenkins packaging URL.
+jenkins_version: "1.644"
+# jenkins_pkg_url: "https://www.example.com"
+
+# Change this to `latest` to update Jenkins if a newer version is available.
+jenkins_package_state: present
+
+jenkins_connection_delay: 5
+jenkins_connection_retries: 60
+jenkins_home: /var/lib/jenkins
+jenkins_hostname: localhost
+jenkins_http_port: 8080
+jenkins_jar_location: /opt/jenkins-cli.jar
+jenkins_url_prefix: ""
+jenkins_java_options: "-Djenkins.install.runSetupWizard=false"
+
+jenkins_plugins: []
+jenkins_plugins_state: present
+jenkins_plugin_updates_expiration: 86400
+jenkins_plugin_timeout: 30
+
+jenkins_admin_username: admin
+jenkins_admin_password: admin
+jenkins_admin_password_file: ""
+jenkins_admin_token: ""
+jenkins_admin_token_file: ""
+
+jenkins_process_user: jenkins
+jenkins_process_group: "{{ jenkins_process_user }}"
+
+jenkins_init_changes:
+  - option: "JENKINS_ARGS"
+    value: "--prefix={{ jenkins_url_prefix }}"
+  - option: "{{ jenkins_java_options_env_var }}"
+    value: "{{ jenkins_java_options }}"
+

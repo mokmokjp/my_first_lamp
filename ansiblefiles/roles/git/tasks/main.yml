@@ -1,5 +1,4 @@
 ---
-# https://github.com/geerlingguy/ansible-role-git
 # Gitをインストール
 - name        : Gitが依存するライブラリをインストール
   yum         :
