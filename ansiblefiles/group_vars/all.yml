@@ -47,12 +47,12 @@ httpd_version: 2.2.15-60.el6.centos.6
 # or sudo access
 mysql_user_home: /root
 mysql_user_name: root
-mysql_user_password: root_pass
+mysql_user_password: rootpass1234
 
 # The default root user installed by mysql - almost always root
 mysql_root_home: /root
 mysql_root_username: root
-mysql_root_password: root_pass
+mysql_root_password: rootpass1234
 
 # Set this to `yes` to forcibly update the root password.
 mysql_root_password_update: no
@@ -156,7 +156,7 @@ mysql_databases:
 mysql_users:
   - name: my_first_lamp_db_user
     host: localhost
-    password: my_first_lamp_db_user_pass
+    password: pass1234abc
     priv: "*.*:USAGE"
 
 # Replication settings (replication is only enabled if master/user have values).
@@ -202,22 +202,8 @@ php_5_6:
     - regexp: '^;(mbstring.encoding_translation) =.*'
       line: '\1 = off'
 
-######################### phpMyAdminの設定 #########################
-# phpMyAdmin:
-#   # ダウンロードURL
-#   url: https://files.phpmyadmin.net/phpMyAdmin/4.5.5.1/phpMyAdmin-4.5.5.1-all-languages.tar.gz
-#   # phpMyAdmin パッケージファイル名
-#   package_filename: phpMyAdmin-4.5.5.1-all-languages
-#   # 作業ディレクトリ
-#   work_dir: /usr/local/src
-#   # 配置ディレクトリ
-#   deploy_dir: /var/www/html
-#   # phpMyAdmin ホームディレクトリ
-#   home_dir: /var/www/html/phpMyAdmin
-#   # phpMyAdmin 設定ファイル変更箇所
-#   config_changes:
-#     - regexp: "^(.*blowfish_secret.*) = .*"
-#       line: "\\1 = '7750';"
+######################### Adminerの設定 #########################
+
 
 ######################### Javaの設定 #########################
 # https://github.com/geerlingguy/ansible-role-java
