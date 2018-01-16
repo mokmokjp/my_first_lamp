@@ -154,9 +154,9 @@ mysql_databases:
 
 # Users.
 mysql_users:
-  - name: my_first_lamp_db_user
+  - name: db_user
     host: localhost
-    password: pass1234abc
+    password: pass1234ABChoge
     priv: "*.*:USAGE"
 
 # Replication settings (replication is only enabled if master/user have values).
