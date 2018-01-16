@@ -252,6 +252,9 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 6. ブラウザで「【3】で自分で設定したIPアドレス/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
 
+【*】Adminerにアクセス
+1. 「【3】で自分で設定したIPアドレス/adminer/」でアクセスできる
+
 【*】Jenkinsでデプロイ
 1. 仮想マシン上のJenkinsには「【3】で自分で設定したIPアドレス:8081」でアクセスできる
 

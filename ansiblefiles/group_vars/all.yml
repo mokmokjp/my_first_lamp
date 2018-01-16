@@ -157,7 +157,7 @@ mysql_users:
   - name: db_user
     host: localhost
     password: pass1234ABChoge
-    priv: "*.*:USAGE"
+    priv: "*.*:ALL,GRANT"
 
 # Replication settings (replication is only enabled if master/user have values).
 mysql_server_id: "1"
