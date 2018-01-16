@@ -203,6 +203,10 @@ php_5_6:
       line: '\1 = off'
 
 ######################### Adminerの設定 #########################
+adminer_install_dir: var/www/html/adminer
+adminer_install_filename: index.php
+adminer_symlink_dirs: []
+adminer_add_apache_config: false
 
 
 ######################### Javaの設定 #########################

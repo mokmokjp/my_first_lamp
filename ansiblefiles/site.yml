@@ -9,6 +9,6 @@
     - mysql
     - php
     # - composer
-    # - adminer
+    - adminer
     - java
     - jenkins
