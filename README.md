@@ -27,7 +27,7 @@ Web制作・開発環境を作るためのボイラープレート
 |CIツール|[Jenkins](https://jenkins.io) v1.644|
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
-|IPアドレス|192.168.33.10|
+|IPアドレス|`自分で設定`|
 |SSH|ユーザ名: Vagrant, パスワード: Vagrant|
 |SSH|ユーザ名: root, パスワード: Vagrant|
 |DBユーザ|ユーザ名: root, パスワード: `自分で設定`|
@@ -201,12 +201,12 @@ html/内のファイルを変更すると
 - rsync-autoで、ホストマシンのhtml/が、仮想マシンのvar/www/html/にアップロードされる
 
 ブラウザで確認
-- ホストマシンのブラウザで、「ホストマシンのローカルIPアドレス:8080」「localhost:8080」「192.168.33.10」にアクセスすると、html/index.htmlが表示される
+- ホストマシンのブラウザで、「ホストマシンのローカルIPアドレス:8080」「localhost:8080」「【3】で自分で設定したIPアドレス」にアクセスすると、html/index.htmlが表示される
 - LAN内のモバイル端末などで、「ホストマシンのローカルIPアドレス:8080」にアクセスすると同じく表示される
 
 WinSCPで仮想マシンに接続する場合
 - 転送プロトコル: SFTP
-- ホスト名: 192.168.33.10
+- ホスト名: 【3】で自分で設定したIPアドレス
 - ユーザ名: vagrant
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
@@ -249,11 +249,11 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 3. ホストマシンで`$ git commit`しておく
 4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant provision`でプロビジョニングをしておく
 5. ホストマシンで、`$ vagrant rsync-auto`で仮想マシンにソースコードをアップロード
-6. ブラウザで「192.168.33.10/install/」にアクセス
+6. ブラウザで「【3】で自分で設定したIPアドレス/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
 
 【*】Jenkinsでデプロイ
-1. 仮想マシン上のJenkinsには「192.168.33.10:8081」でアクセスできる
+1. 仮想マシン上のJenkinsには「【3】で自分で設定したIPアドレス:8081」でアクセスできる
 
 
 ## このファイル・ディレクトリ何？
