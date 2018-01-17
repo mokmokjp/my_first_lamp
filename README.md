@@ -135,7 +135,7 @@ config.vm.hostname = "`自分で設定`"
   config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
-【4】SSHユーザー、DBユーザー、DBネームの設定
+【4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
 次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
 ```yml
 linux_newusers        :
@@ -165,6 +165,10 @@ mysql_users:
      host: localhost
      password: `自分で設定`
      priv: "*.*:USAGE"
+```
+```
+jenkins_admin_username: `自分で設定`
+jenkins_admin_password: `自分で設定`
 ```
 
 【5】仮想マシンの起動、プロビジョニング、終了など
@@ -201,15 +205,21 @@ html/内のファイルを変更すると
 - rsync-autoで、ホストマシンのhtml/が、仮想マシンのvar/www/html/にアップロードされる
 
 ブラウザで確認
-- ホストマシンのブラウザで、「ホストマシンのローカルIPアドレス:8080」「localhost:8080」「【3】で自分で設定したIPアドレス」にアクセスすると、html/index.htmlが表示される
-- LAN内のモバイル端末などで、「ホストマシンのローカルIPアドレス:8080」にアクセスすると同じく表示される
+- ホストマシンのブラウザで、「`【3】で自分で設定したIPアドレス`」「`ホストマシンのローカルIPアドレス:8080`」「`localhost:8080`」にアクセスすると、html/index.htmlが表示される
+- LAN内のモバイル端末などで、「`ホストマシンのローカルIPアドレス:8080`」にアクセスすると同じく表示される
 
 WinSCPで仮想マシンに接続する場合
 - 転送プロトコル: SFTP
-- ホスト名: 【3】で自分で設定したIPアドレス
+- ホスト名: 「`【3】で自分で設定したIPアドレス`」
 - ユーザ名: vagrant
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
+
+【*】Adminerにアクセス
+1. 「`【3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
+
+【*】Jenkinsでデプロイ
+1. 仮想マシン上のJenkinsには「`【3】で自分で設定したIPアドレス:8080`」でアクセスできる
 
 【*】GitHubにgit pushしたら、Slackに通知する
 1. Slackのアカウントを作成する
@@ -251,12 +261,6 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 5. ホストマシンで、`$ vagrant rsync-auto`で仮想マシンにソースコードをアップロード
 6. ブラウザで「【3】で自分で設定したIPアドレス/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
-
-【*】Adminerにアクセス
-1. 「【3】で自分で設定したIPアドレス/adminer/」でアクセスできる
-
-【*】Jenkinsでデプロイ
-1. 仮想マシン上のJenkinsには「【3】で自分で設定したIPアドレス:8081」でアクセスできる
 
 
 ## このファイル・ディレクトリ何？
