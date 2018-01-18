@@ -156,4 +156,4 @@ gulp.task('watch', function () {
 });
 
 // デフォルトのタスクを登録
-gulp.task('default', ['css', 'js', 'watch']);
+gulp.task('default', ['css', 'js']);
