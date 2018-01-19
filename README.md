@@ -96,7 +96,7 @@ gulpのビルド設定(全てgulpfile.jsに記述)
 
 ## 使い方
 
-【1】ホストマシンにGitのインストール
+### 【1】ホストマシンにGitのインストール
 
 1. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール。(参考: [Gitのインストール](docs/install_git.md))
 2. ユーザー名とメールアドレスを、Gitにグローバル設定する
@@ -113,7 +113,7 @@ $ git config --global core.quotepath false
 $ git config --global core.autocrlf false
 ```
 
-【2】仮想マシンを作るための準備
+### 【2】仮想マシンを作るための準備
 
 1. ホストマシンに[VirtualBox(v5.1.28)](https://www.virtualbox.org/wiki/Downloads)をインストール
 2. ホストマシンに[Vagrant(v2.0.0)](https://www.vagrantup.com/downloads.html)をインストール
@@ -122,7 +122,8 @@ $ git config --global core.autocrlf false
 5. ホストマシンにプロジェクト用のディレクトリを作り、このリポジトリをgit cloneする
 6. ホストマシンを再起動
 
-【3】仮想マシンの設定
+### 【3】仮想マシンの設定
+
 仮想マシンのVirtualBoxでの名前、仮想マシンのホスト名を設定する
 次のファイルを編集 `Vagrantfile`:
 ```text
@@ -135,7 +136,8 @@ config.vm.hostname = "`自分で設定`"
   config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
-【4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
+### 【4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
+
 次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
 ```yml
 linux_newusers        :
@@ -171,7 +173,7 @@ jenkins_admin_username: `自分で設定`
 jenkins_admin_password: `自分で設定`
 ```
 
-【5】仮想マシンの起動、プロビジョニング、終了など
+### 【5】仮想マシンの起動、プロビジョニング、終了など
 
 | 目的 | コマンド |
 |--|--|
@@ -181,7 +183,7 @@ jenkins_admin_password: `自分で設定`
 |仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
 |ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
 
-【6】ホストマシンのフロントエンド開発環境を整える
+### 【6】ホストマシンのフロントエンド開発環境を整える
 
 1. ホストマシンに[node.js(v8.9.1)](https://nodejs.org/ja/download/releases/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
@@ -190,7 +192,8 @@ jenkins_admin_password: `自分で設定`
 $ npm install
 ```
 
-【7】gulpの設定、実行
+### 【7】gulpの設定、実行
+
 `gulpfile.js`を編集することで、gulpの動作設定ができます。
 
 | 目的 | コマンド |
@@ -200,7 +203,8 @@ $ npm install
 |デフォルトのタスクを実行し、ファイル監視|ホストマシンのプロジェクトルートで、`$ npm run gulp watch`コマンドを打つ|
 |監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
 
-【8】開発
+### 【8】開発
+
 html/内のファイルを変更すると
 - gulpのタスクが自動実行される
 - rsync-autoで、ホストマシンのhtml/が、仮想マシンのvar/www/html/にアップロードされる
@@ -216,28 +220,16 @@ WinSCPで仮想マシンに接続する場合
 - パスワード: vagrant
 - 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
 
-【*】Adminerにアクセス
+### 【*】仮想マシン上のAdminerにアクセス
+
 1. 「`【3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
 
-【*】Jenkinsでデプロイ
+### 【*】仮想マシン上のJenkinsにアクセス
+
 1. 仮想マシン上のJenkinsには「`【3】で自分で設定したIPアドレス:8080`」でアクセスできる
 
-【*】GitHubにgit pushしたら、Slackに通知する
-1. Slackのアカウントを作成する
-2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
-3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
-4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
+### 【*】本番サーバーのプロビジョニング(Ansibleで)
 
-【*】.editorconfigファイルの設定をテキストエディタに適用する
-- [Atomの場合](https://atom.io/packages/editorconfig)
-- [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
-- [Emacsの場合](https://github.com/editorconfig/editorconfig-emacs)
-- [PhpStormの場合](https://plugins.jetbrains.com/plugin/7294-editorconfig)
-- [SublimeText3の場合](https://github.com/sindresorhus/editorconfig-sublime)
-- [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
-- [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
-
-【*】本番サーバーのプロビジョニング
 1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
 2. 本番サーバーの管理パネルからCentOs6をインストール
 3. `/ansiblefiles/inventories/remote_production.ini` を編集
@@ -254,7 +246,81 @@ WinSCPで仮想マシンに接続する場合
 $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
 ```
 
-【*】EC-CUBE2.X系のインストール
+### 【*】本番サーバーのデプロイ(Jenkinsで)
+
+1. 本番サーバーにSSH接続して、公開鍵を作成
+鍵の生成。パスフレーズは空でする
+`
+$ sudo usermod -d /var/lib/jenkins -s /bin/bash jenkins
+$ cd /var/lib/jenkins
+$ sudo -u jenkins ssh-keygen
+`
+登録した鍵を通す
+`
+$ vi ~/.ssh/config
+Host bitbucket.org
+  Hostname bitbucket.org
+  User git
+  IdentityFile /var/lib/jenkins/.ssh/id_rsa
+`
+
+2. Bitbucketに公開鍵を登録
+/var/lib/jenkins/.ssh/id_rsa.pub の内容をコピペ
+
+3. 本番サーバーのJenkinsにプラグインを追加
+Git Plugin
+Git Parameter Plugin
+
+4-1. 本番サーバーのJenkinsにジョブを追加
+ビルドのパラメータ化 - Git Parameter - Name: ${myparam}
+ビルドのパラメータ化 - Git Parameter - ParameterType: Branch
+プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/
+ソースコード管理: git
+Repository URL: git@bitbucket.org:bitbucketのユーザ名/リポジトリ名.git
+認証情報-種類: SSHユーザー名と秘密鍵
+認証情報-スコープ: グローバル
+認証情報-ユーザー名: jenkins
+認証情報-秘密鍵: jenkinsのマスター上の~/.sshから
+認証情報-パスフレーズ: 
+Branches to build: ${myparam}
+リポジトリブラウザ欄: bitbucketweb
+URL: https://bitbucketのユーザ名@bitbucket.org/リポジトリ名.git
+SCMをポーリング: チェックオフ
+
+4-2. 本番サーバーの不要ディレクトリ削除
+これをしないとJenkinsがgit cloneできない
+/var/www/cgi-bin
+/var/www/error
+/var/www/icons
+
+4-3. サーバーの/var/wwwのパーミッションを0757に変更
+これをしないとJenkinsがgit cloneできない
+
+5. 本番サーバーのJenkinsにジョブを追加
+プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/
+シェル: npm run gulp
+
+6. 4と5をパイプラインでつなげる
+
+### 【*】GitHubにgit pushしたら、Slackに通知する
+
+1. Slackのアカウントを作成する
+2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
+3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
+4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
+
+### 【*】.editorconfigファイルの設定をテキストエディタに適用する
+
+- [Atomの場合](https://atom.io/packages/editorconfig)
+- [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
+- [Emacsの場合](https://github.com/editorconfig/editorconfig-emacs)
+- [PhpStormの場合](https://plugins.jetbrains.com/plugin/7294-editorconfig)
+- [SublimeText3の場合](https://github.com/sindresorhus/editorconfig-sublime)
+- [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
+- [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
+
+### 【*】EC-CUBE2.X系のインストール
+
 1. ./data/ディレクトリと、./html/ディレクトリがある場合は削除してから、ホストマシンでbat/download_eccube.bat を実行する
 2. `ansiblefiles/site.yml`の`eccube`をコメントインさせる
 3. ホストマシンで`$ git commit`しておく
@@ -265,6 +331,7 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 
 
 ## このファイル・ディレクトリ何？
+
 | ファイル・ディレクトリ | 内容 |
 |--|--|
 |.git/|Gitの情報を格納しているディレクトリ|
@@ -287,9 +354,11 @@ $ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /v
 `$vagrant up`できない
 - PCの仮想化支援機能を有効にする。
 - ディレクトリ・ファイル名に日本語が含まれていたら、英数に治す
+- 他のプロジェクトの仮想マシンを起動中の場合は、`$vagrant halt`で一度終了させておく
 
 `$ vagrant rsync-auto`が動作しない
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
+- ファイル名に日本語を使用しない
 
 ## その他
 
