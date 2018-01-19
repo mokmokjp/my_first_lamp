@@ -5,12 +5,10 @@
   roles:
     - centos6
     - git
-    - python
     - apache
     - mysql
     - php
     - composer
-    - adminer
     - java
     - jenkins
     - nodejs
