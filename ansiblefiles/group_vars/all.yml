@@ -279,7 +279,7 @@ php_:
 
 composer_path: /usr/local/bin/composer
 composer_keep_updated: false
-composer_version: ''
+composer_version: '1.6.2'
 
 # The directory where global packages will be installed.
 composer_home_path: '~/.composer'
