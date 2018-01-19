@@ -2,13 +2,13 @@
 # PHP
 - name: phpのリポジトリのインストール
   yum:
-    name: "{{ php_.repo_url }}"
+    name: "{{ php_v.repo_url }}"
     state: installed
 
 - name          : phpと関連パッケージインストール
   yum           :
-    name        : "{{ php_.install_packages }}"
-    enablerepo  : "{{ php_.enablerepo }}"
+    name        : "{{ php_v.install_packages }}"
+    enablerepo  : "{{ php_v.enablerepo }}"
     state       : installed
 
 - name          : /etc/httpd/conf/extra/ ディレクトリを作る
@@ -32,5 +32,5 @@
     backrefs    : yes
     regexp      : "{{ item.regexp }}"
     line        : "{{ item.line }}"  # see group_vars/all.yml
-  with_items    : "{{ php_.config_changes }}"
+  with_items    : "{{ php_v.config_changes }}"
   notify        : httpd再起動
