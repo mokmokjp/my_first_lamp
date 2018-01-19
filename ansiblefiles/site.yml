@@ -5,6 +5,7 @@
   roles:
     - centos6
     - git
+    - python
     - apache
     - mysql
     - php
