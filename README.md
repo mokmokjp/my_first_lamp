@@ -363,6 +363,7 @@ SCMをポーリング: チェックオフ
 
 `$ vagrant rsync-auto`が動作しない
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
+- Vagrant2.0.0で発生するバグ。`C:\HashiCorp\Vagrant\embedded\gems\gems\vagrant-2.0.0\lib\vagrant\util\platform.rb`をhttps://github.com/briancain/vagrant/blob/3c9e1c9d84812c67119f2756629e47167604f28a/lib/vagrant/util/platform.rbのコードで書き換える。
 - ファイル名に日本語を使用しない
 
 ## その他
