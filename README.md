@@ -10,7 +10,7 @@ Web制作・開発環境を作るためのボイラープレート
 - プロジェクトはGitでバージョン管理します
 - GitHubとSlackを連携させます
 
-![system_view](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/system_view.png "system_view")
+![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
 ===仮想マシン
 
