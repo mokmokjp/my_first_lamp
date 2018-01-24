@@ -143,8 +143,12 @@ linux_newusers        :
     pass              : "{{ '`自分で設定`' |password_hash('sha256') }}"
     shell             : /bin/bash
     priv              : member
+git_version: "`自分で設定`"
+httpd_version: `自分で設定`
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
 mysql_root_password: `自分で設定`
+mysql_repo_url: `自分で設定`
+mysql_enablerepo: `自分で設定`
 mysql_databases:
   - name: `自分で設定`
     collation: utf8_general_ci
@@ -154,9 +158,16 @@ mysql_users:
   - name: `自分で設定`
     host: localhost
     password: `自分で設定`
-    priv: "*.*:USAGE"
+    priv: "`自分で設定`"
+php_v:
+  version: `自分で設定`
+  repo_url: `自分で設定`
+  enablerepo: `自分で設定`
+composer_version: '`自分で設定`'
+jenkins_version: "`自分で設定`"
 jenkins_admin_username: `自分で設定`
 jenkins_admin_password: `自分で設定`
+nodejs_version: "`自分で設定`"
 ```
 
 ### 【5】仮想マシンの起動、プロビジョニング、終了など
