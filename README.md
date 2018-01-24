@@ -1,13 +1,14 @@
 
 # ![my_first_lamp](https://github.com/mokmokjp/my_first_lamp/blob/master/docs/logo.png "my_first_lamp")
 
-## 概要
+## 【I】概要
 
 Web制作・開発環境を作るためのボイラープレート
 - 仮想マシンはLAMP環境で、必要に応じてWordPress等のCMSを入れます
 - 仮想マシンはVirtualBox + Vagrant で構築し、Ansibleでプロビジョニングします
 - ホストマシン上にはnode.jsを入れ、GulpでのSASS・PostCSS・Babel環境を作ります
 - プロジェクトはGitでバージョン管理します
+- 本番サーバはJenkinsでデプロイします
 - GitHubとSlackを連携させます
 
 ![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
@@ -94,9 +95,9 @@ gulpのビルド設定(全てgulpfile.jsに記述)
 |Android|last 1 version|
 
 
-## 使い方
+## 【II】準備を行う
 
-### 【1】ホストマシンにGitのインストール
+### 【II-1】ホストマシンにGitのインストール
 
 1. ホストマシンに[Git(v2.14.1)](https://git-scm.com/downloads)をインストール。(参考: [Gitのインストール](docs/install_git.md))
 2. ユーザー名とメールアドレスを、Gitにグローバル設定する
@@ -113,7 +114,7 @@ $ git config --global core.quotepath false
 $ git config --global core.autocrlf false
 ```
 
-### 【2】仮想マシンを作るための準備
+### 【II-2】ホストマシンにVagrant, VirtualBox等をインストール
 
 1. ホストマシンに[VirtualBox(v5.1.28)](https://www.virtualbox.org/wiki/Downloads)をインストール
 2. ホストマシンに[Vagrant(v2.0.0)](https://www.vagrantup.com/downloads.html)をインストール
@@ -122,9 +123,8 @@ $ git config --global core.autocrlf false
 5. ホストマシンにプロジェクト用のディレクトリを作り、このリポジトリをgit cloneする
 6. ホストマシンを再起動
 
-### 【3】仮想マシンの設定
+### 【II-3】仮想マシンの設定
 
-仮想マシンのVirtualBoxでの名前、仮想マシンのホスト名を設定する
 次のファイルを編集 `Vagrantfile`:
 ```text
 v.name = "`自分で設定`"
@@ -132,7 +132,7 @@ config.vm.hostname = "`自分で設定`"
 config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
-### 【4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
+### 【II-4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
 
 次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
 ```yml
@@ -170,17 +170,7 @@ jenkins_admin_password: `自分で設定`
 nodejs_version: "`自分で設定`"
 ```
 
-### 【5】仮想マシンの起動、プロビジョニング、終了など
-
-| 目的 | コマンド |
-|--|--|
-|仮想マシンの起動|ホストマシンのプロジェクトルート(このリポジトリをクローンしたディレクトリ)に移動し、`$ vagrant up`コマンドを打つ。必要なVagrantBoxがホストマシンにインストールされ、仮想マシンが起動し、仮想マシン上のAnsibleがプロビジョニングを行う。初回時にはVagrantBoxのインストールと、プロビジョニングが行われるので時間がかかる。|
-|仮想マシンの終了|ホストマシンのプロジェクトルートで、`$ vagrant halt`コマンドを打つ|
-|仮想マシンの破棄|ホストマシンのプロジェクトルートで、`$ vagrant destroy`コマンドを打つ|
-|仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
-|ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
-
-### 【6】ホストマシンのフロントエンド開発環境を整える
+### 【II-5】ホストマシンのフロントエンド開発環境を整える
 
 1. ホストマシンに[node.js(v8.9.1)](https://nodejs.org/ja/download/releases/)をインストール。パッケージマネージャのnpmも一緒にインストールされる。node.jsにPATHが自動で通される。
 2. ホストマシンを再起動
@@ -189,48 +179,54 @@ nodejs_version: "`自分で設定`"
 $ npm install
 ```
 
-### 【7】gulpの設定、実行
+### 【II-6】.editorconfigファイルの設定をテキストエディタに適用する
 
-`gulpfile.js`を編集することで、gulpの動作設定ができます。
+- [Atomの場合](https://atom.io/packages/editorconfig)
+- [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
+- [Emacsの場合](https://github.com/editorconfig/editorconfig-emacs)
+- [PhpStormの場合](https://plugins.jetbrains.com/plugin/7294-editorconfig)
+- [SublimeText3の場合](https://github.com/sindresorhus/editorconfig-sublime)
+- [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
+- [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
 
-| 目的 | コマンド |
-|--|--|
-|デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp`コマンドを打つ|
-|特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp taskname`コマンドを打つ|
-|デフォルトのタスクを実行し、ファイル監視|ホストマシンのプロジェクトルートで、`$ npm run gulp watch`コマンドを打つ|
-|監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
+### 【II-7】GitHubにgit pushしたら、Slackに通知する
 
-### 【8】開発
+1. Slackのアカウントを作成する
+2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
+3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
+4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
 
-html/内のファイルを変更すると
-- gulpのタスクが自動実行される
-- rsync-autoで、ホストマシンのhtml/が、仮想マシンのvar/www/html/にアップロードされる
 
-ブラウザで確認
-- ホストマシンのブラウザで、「`【3】で自分で設定したIPアドレス`」「`ホストマシンのローカルIPアドレス:8080`」「`localhost:8080`」にアクセスすると、html/index.htmlが表示される
-- LAN内のモバイル端末などで、「`ホストマシンのローカルIPアドレス:8080`」にアクセスすると同じく表示される
+## 【III】開発、テスト、デプロイ方法
 
-WinSCPで仮想マシンに接続する場合
-- 転送プロトコル: SFTP
-- ホスト名: 「`【3】で自分で設定したIPアドレス`」
-- ユーザ名: vagrant
-- パスワード: vagrant
-- 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
+### 【III-1】開発手順
 
-### 【*】仮想マシン上のAdminerにアクセス
+1. プロジェクトルートで`$ vagrant up`コマンドを打ち、仮想マシンを起動する
+2. プロジェクトルートで`$ vagrant rsync-auto`コマンドを打ち、rsyncを自動で行うようにする
+3. プロジェクトルートで`$ npm run gulp watch`コマンドを打ち、gulpによるファイル監視と自動ビルドを有効にする
+4. ブラウザで確認する
+    - ホストマシンのブラウザで、「`【II-3】で自分で設定したIPアドレス`」「`ホストマシンのローカルIPアドレス:8080`」「`localhost:8080`」にアクセスすると、仮想マシンの`/var/www/html/index.html`が表示される
+    - LAN内のモバイル端末などで、「`ホストマシンのローカルIPアドレス:8080`」にアクセスすると同じく表示される
 
-1. 「`【3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
+### 【III-2】本番サーバーのプロビジョニングを行う(Ansibleで)
 
-### 【*】仮想マシン上のJenkinsにアクセス
+1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
+2. 本番サーバーの管理パネルからCentOs6をインストール
+3. `/ansiblefiles/inventories/remote_production.ini` を編集
+```ini
+[webservers]
+`1のIPアドレスを入力`
 
-1. 仮想マシン上のJenkinsには「`【3】で自分で設定したIPアドレス:8080`」でアクセスできる
+[dbservers]
+`1のIPアドレスを入力`
+```
+4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
+5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
+```sh
+$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
+```
 
-### 【*】DBのエクスポート、インポートを行う
-
-1. Adminerにログインし、エクスポート
-2. Adminerにログインし、1をインポート
-
-### 【*】本番サーバーにキー認証でのみログインできるようにする(手動設定)
+### 【III-3】本番サーバーにキー認証でのみログインできるようにする(手動設定)
 
 1. 手元のホストマシンで鍵生成
 ```sh
@@ -249,7 +245,7 @@ $ sed -i -e "s/#PasswordAuthentication yes/PasswordAuthentication no/g" /etc/ssh
 $ sed -i -e "s/Port 22/Port 2211/g" /etc/ssh/sshd_config
 # sshd再起動
 $ service sshd restart
-# 【4】で設定したSSHユーザー(例としてmy_first_lamp_user)をsudoに追加
+# 【II-4】で設定したSSHユーザー(例としてmy_first_lamp_user)をsudoに追加
 $ cd ~
 $ visudo
     `
@@ -259,7 +255,7 @@ $ visudo
     root    ALL=(ALL)       ALL
     my_first_lamp_user    ALL=(ALL)       ALL
     `
-# 【4】で設定したSSHユーザー(例としてmy_first_lamp_user)に切り替え、公開鍵を登録
+# 【II-4】で設定したSSHユーザー(例としてmy_first_lamp_user)に切り替え、公開鍵を登録
 $ su - my_first_lamp_user
 $ cd ~
 $ mkdir .ssh
@@ -273,25 +269,49 @@ $ cd 1で鍵を作ったディレクトリ
 $ ssh -i 1の鍵名 my_first_lamp_user@本番サーバのIPアドレス
 ```
 
-### 【*】本番サーバーのプロビジョニング(Ansibleで)
+### 【III-4】本番サーバーのApacheの設定を行う(手動で)
 
-1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
-2. 本番サーバーの管理パネルからCentOs6をインストール
-3. `/ansiblefiles/inventories/remote_production.ini` を編集
-```ini
-[webservers]
-`1のIPアドレスを入力`
+1. /etc/httpd/conf/httpd.confファイルを編集し、VirtualHostを有効にする
+``sh
+$ sudo vim /etc/httpd/conf/httpd.conf
+    ``
+    #NameVirtualHost *:80
+    ↓
+    NameVirtualHost *:80
+    ``
+``
 
-[dbservers]
-`1のIPアドレスを入力`
-```
-4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
-5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
-```sh
-$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
-```
+2. /etc/httpd/conf.d/virtualhost.confファイルを作成
+``sh
+$ sudo vim /etc/httpd/conf.d/virtualhost.conf
+    ``
+    <VirtualHost *:80>
+            ServerName 本番サーバーのドメイン名
+            DocumentRoot /var/www/production/html/
+            <Directory /var/www/production/html/>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+    </VirtualHost>
+    <VirtualHost *:80>
+            ServerName staging.本番サーバーのドメイン名
+            DocumentRoot /var/www/staging/html/
+            <Directory /var/www/staging/html/>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+    </VirtualHost>
+    ``
+``
 
-### 【*】本番サーバーのデプロイ(Jenkinsで)
+3. apache再起動
+``sh
+$ service httpd restart
+``
+
+### 【III-5】本番サーバーのデプロイを行う(Jenkinsで)
 
 1. 本番サーバーにSSH接続して、公開鍵を作成
 鍵の生成。パスフレーズは空でする
@@ -316,10 +336,13 @@ Host bitbucket.org
 Git Plugin
 Git Parameter Plugin
 
-4-1. 本番サーバーのJenkinsにジョブを追加
-ビルドのパラメータ化 - Git Parameter - Name: ${myparam}
+4. 本番サーバーのJenkinsにジョブを追加
+```
+プロジェクト名: deploy production
+説明: /var/www/production/ にデプロイする
+ビルドのパラメータ化 - Git Parameter - Name: myparam
 ビルドのパラメータ化 - Git Parameter - ParameterType: Branch
-プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/
+プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/production/
 ソースコード管理: git
 Repository URL: git@bitbucket.org:bitbucketのユーザ名/リポジトリ名.git
 認証情報-種類: SSHユーザー名と秘密鍵
@@ -327,55 +350,73 @@ Repository URL: git@bitbucket.org:bitbucketのユーザ名/リポジトリ名.gi
 認証情報-ユーザー名: jenkins
 認証情報-秘密鍵: jenkinsのマスター上の~/.sshから
 認証情報-パスフレーズ: 
-Branches to build: ${myparam}
-リポジトリブラウザ欄: bitbucketweb
+ビルドするブランチ: ${myparam}
+リポジトリ・ブラウザ: bitbucketweb
 URL: https://bitbucketのユーザ名@bitbucket.org/リポジトリ名.git
 SCMをポーリング: チェックオフ
+ビルド後の処理: gulp production
+```
 
-4-2. 本番サーバーの不要ディレクトリ削除
-これをしないとJenkinsがgit cloneできない
-/var/www/cgi-bin
-/var/www/error
-/var/www/icons
+5. 4をコピーして、ジョブを追加
+```
+プロジェクト名: deploy staging
+説明: /var/www/staging/ にデプロイする
+プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/staging/
+ビルド後の処理: gulp staging
+```
 
-4-3. サーバーの/var/wwwのパーミッションを0757に変更
-これをしないとJenkinsがgit cloneできない
+6. 本番サーバーのJenkinsにジョブを追加
+```
+プロジェクト名: gulp production
+説明: /var/www/production/ でgulpを実行
+ビルド>シェルの実行: cd /var/www/production/
+                npm run gulp
+```
 
-5. 本番サーバーのJenkinsにジョブを追加
-プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/
-ビルド>シェルの実行: npm run gulp
+7. 6をコピーして、ジョブを追加
+```
+プロジェクト名: gulp staging
+説明: /var/www/staging/ でgulpを実行
+ビルド>シェルの実行: cd /var/www/staging/
+                npm run gulp
+```
 
-6. 4と5をパイプラインでつなげる
+8. 本番サーバーの`/var/www/production`、`/var/www/staging`で`$npm install`しておく
 
-### 【*】GitHubにgit pushしたら、Slackに通知する
-
-1. Slackのアカウントを作成する
-2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
-3. GitHubのリポジトリとブランチを選択、Slackに通知したいイベントを選択する
-4. 以上の設定で、GitHub上でイベントが発生時にSlackへ通知が飛ぶようになる
-
-### 【*】.editorconfigファイルの設定をテキストエディタに適用する
-
-- [Atomの場合](https://atom.io/packages/editorconfig)
-- [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
-- [Emacsの場合](https://github.com/editorconfig/editorconfig-emacs)
-- [PhpStormの場合](https://plugins.jetbrains.com/plugin/7294-editorconfig)
-- [SublimeText3の場合](https://github.com/sindresorhus/editorconfig-sublime)
-- [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
-- [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
-
-### 【*】EC-CUBE2.X系のインストール
+### 【III-*】EC-CUBE2.X系のインストール方法
 
 1. ./data/ディレクトリと、./html/ディレクトリがある場合は削除してから、ホストマシンでbat/download_eccube.bat を実行する
 2. `ansiblefiles/site.yml`の`eccube`をコメントインさせる
 3. ホストマシンで`$ git commit`しておく
 4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant provision`でプロビジョニングをしておく
 5. ホストマシンで、`$ vagrant rsync-auto`で仮想マシンにソースコードをアップロード
-6. ブラウザで「【3】で自分で設定したIPアドレス/install/」にアクセス
+6. ブラウザで「【II-3】で自分で設定したIPアドレス/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
 
+### 【III-*】WinSCPで仮想マシンに接続する方法
+- 転送プロトコル: SFTP
+- ホスト名: 「`【II-3】で自分で設定したIPアドレス`」
+- ユーザ名: vagrant
+- パスワード: vagrant
+- 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
 
-## このファイル・ディレクトリ何？
+### 【III-*】仮想マシン上のAdminerにアクセスする方法
+
+1. 「`【II-3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
+
+### 【III-*】仮想マシン上のJenkinsにアクセスする方法
+
+1. 仮想マシン上のJenkinsには「`【II-3】で自分で設定したIPアドレス:8080`」でアクセスできる
+
+### 【III-*】DBのエクスポート、インポートを行う方法
+
+1. Adminerにログインし、エクスポート
+2. Adminerにログインし、1をインポート
+
+
+## 【IV】その他知識
+
+## 【IV-1】このファイル・ディレクトリ何？
 
 | ファイル・ディレクトリ | 内容 |
 |--|--|
@@ -394,7 +435,7 @@ SCMをポーリング: チェックオフ
 |package.json|node.jsのpackageを管理するためのファイル|
 |Vagrantfile|VagrantとVirtualBoxの設定を記述するファイル|
 
-## トラブルシューティング
+### 【IV-2】トラブルシューティング
 
 `$vagrant up`できない
 - PCの仮想化支援機能を有効にする。
@@ -406,9 +447,26 @@ SCMをポーリング: チェックオフ
 - Vagrant2.0.0で発生するバグ。`C:\HashiCorp\Vagrant\embedded\gems\gems\vagrant-2.0.0\lib\vagrant\util\platform.rb`をhttps://github.com/briancain/vagrant/blob/3c9e1c9d84812c67119f2756629e47167604f28a/lib/vagrant/util/platform.rbのコードで書き換える。
 - ファイル名に日本語を使用しない
 
-## その他
+### 【IV-3】仮想マシンの起動、プロビジョニング、終了など
 
-### 本リポジトリを、チーム開発に適用するメリット
+| 目的 | コマンド |
+|--|--|
+|仮想マシンの起動|ホストマシンのプロジェクトルート(このリポジトリをクローンしたディレクトリ)に移動し、`$ vagrant up`コマンドを打つ。必要なVagrantBoxがホストマシンにインストールされ、仮想マシンが起動し、仮想マシン上のAnsibleがプロビジョニングを行う。初回時にはVagrantBoxのインストールと、プロビジョニングが行われるので時間がかかる。|
+|仮想マシンの終了|ホストマシンのプロジェクトルートで、`$ vagrant halt`コマンドを打つ|
+|仮想マシンの破棄|ホストマシンのプロジェクトルートで、`$ vagrant destroy`コマンドを打つ|
+|仮想マシンのプロビジョニングを行う|ホストマシンのプロジェクトルートで、`$ vagrant provision`コマンドを打つ|
+|ホストマシンのプロジェクトディレクトリ内のファイル変更を検知し、仮想マシン上の特定のディレクトリに一方向で同期させる|プロジェクトルートで、`$ vagrant rsync-auto`コマンドを打つ。なお、仮想マシンからホストマシンへのファイル同期はできない。|
+
+### 【IV-4】gulpの使い方
+
+| 目的 | コマンド |
+|--|--|
+|デフォルトのタスクを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp`コマンドを打つ|
+|特定のtasknameを実行|ホストマシンのプロジェクトルートで、`$ npm run gulp taskname`コマンドを打つ|
+|デフォルトのタスクを実行し、ファイル監視|ホストマシンのプロジェクトルートで、`$ npm run gulp watch`コマンドを打つ|
+|監視系のタスクを終了|ホストマシンのプロジェクトルートで、`Ctrl + C`|
+
+### 【IV-5】本リポジトリを、チーム開発に適用するメリット
 
 GitでのVersion Control
 - 可視: 開発の履歴が可視化される
@@ -443,7 +501,7 @@ SlackでのChatOPS
 - PostCSSで自動でベンダープレフィックスを付与
 - BabelでES6のコードをES5にコンパイル
 
-### 参考書籍
+### 【IV-6】参考書籍
 - [実践 Vagrant](https://www.amazon.co.jp/実践-Vagrant-Mitchell-Hashimoto/dp/4873116651)
 - [Ansible 実践ガイド](https://www.amazon.co.jp/Ansible実践ガイド-impress-top-gear-北山/dp/4295000469)
 - [Jenkins実践入門](https://www.amazon.co.jp/改訂新版Jenkins実践入門-――ビルド・テスト・デプロイを自動化する技術-WEB-PRESS-plus/dp/4774174238/ref=cm_cr_srp_d_product_top?ie=UTF8)
