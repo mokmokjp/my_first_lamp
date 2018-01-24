@@ -274,17 +274,17 @@ $ ssh -i 1の鍵名 my_first_lamp_user@本番サーバのIPアドレス
 ### 【III-4】本番サーバーのApacheの設定を行う(手動で)
 
 1. /etc/httpd/conf/httpd.confファイルを編集し、VirtualHostを有効にする
-``sh
+```sh
 $ sudo vim /etc/httpd/conf/httpd.conf
     `
     #NameVirtualHost *:80
     ↓
     NameVirtualHost *:80
     `
-``
+```
 
 2. /etc/httpd/conf.d/virtualhost.confファイルを作成
-``sh
+```sh
 $ sudo vim /etc/httpd/conf.d/virtualhost.conf
     `
     <VirtualHost *:80>
@@ -306,7 +306,7 @@ $ sudo vim /etc/httpd/conf.d/virtualhost.conf
             </Directory>
     </VirtualHost>
     `
-``
+```
 
 3. apache再起動
 ``sh
