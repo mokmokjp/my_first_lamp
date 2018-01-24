@@ -128,12 +128,8 @@ $ git config --global core.autocrlf false
 次のファイルを編集 `Vagrantfile`:
 ```text
 v.name = "`自分で設定`"
-```
-```text
 config.vm.hostname = "`自分で設定`"
-```
-```text
-  config.vm.network "private_network", ip: "`自分で設定`"
+config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
 ### 【4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
@@ -147,28 +143,18 @@ linux_newusers        :
     pass              : "{{ '`自分で設定`' |password_hash('sha256') }}"
     shell             : /bin/bash
     priv              : member
-...
-mysql_user_home: /root
-mysql_user_name: root
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
-...
-mysql_root_home: /root
-mysql_root_username: root
 mysql_root_password: `自分で設定`
-...
 mysql_databases:
-   - name: `自分で設定`
-     collation: utf8_general_ci
-     encoding: utf8
-     replicate: 1
-...
+  - name: `自分で設定`
+    collation: utf8_general_ci
+    encoding: utf8
+    replicate: 1
 mysql_users:
-   - name: `自分で設定`
-     host: localhost
-     password: `自分で設定`
-     priv: "*.*:USAGE"
-```
-```
+  - name: `自分で設定`
+    host: localhost
+    password: `自分で設定`
+    priv: "*.*:USAGE"
 jenkins_admin_username: `自分で設定`
 jenkins_admin_password: `自分で設定`
 ```
@@ -232,6 +218,49 @@ WinSCPで仮想マシンに接続する場合
 
 1. Adminerにログインし、エクスポート
 2. Adminerにログインし、1をインポート
+
+### 【*】本番サーバーにキー認証でのみログインできるようにする(手動設定)
+
+1. 手元のホストマシンで鍵生成
+```sh
+$ cd 任意のディレクトリ
+$ ssh-keygen -t rsa -f 任意の鍵名
+```
+2. 本番サーバーにrootでログインし、設定
+```sh
+# キー認証でのログインを有効化
+$ sed -i -e "s/#AuthorizedKeysFile/AuthorizedKeysFile/g" /etc/ssh/sshd_config
+# rootでのSSHログインを禁止する
+$ sed -i -e "s/#PermitRootLogin yes/PermitRootLogin no/g" /etc/ssh/sshd_config
+# パスワードでのSSHログインを禁止する
+$ sed -i -e "s/#PasswordAuthentication yes/PasswordAuthentication no/g" /etc/ssh/sshd_config
+# SSHポート番号を変更する（ここでは例として2211に）
+$ sed -i -e "s/Port 22/Port 2211/g" /etc/ssh/sshd_config
+# sshd再起動
+$ service sshd restart
+# 【4】で設定したSSHユーザー(例としてmy_first_lamp_user)をsudoに追加
+$ cd ~
+$ visudo
+    `
+    ## The COMMANDS section may have other options added to it.
+    ##
+    ## Allow root to run any commands anywhere
+    root    ALL=(ALL)       ALL
+    my_first_lamp_user    ALL=(ALL)       ALL
+    `
+# 【4】で設定したSSHユーザー(例としてmy_first_lamp_user)に切り替え、公開鍵を登録
+$ su - my_first_lamp_user
+$ cd ~
+$ mkdir .ssh
+$ echo 'ホストマシンの、.ssh/time4vps.pubの内容' >> .ssh/authorized_keys
+$ chmod 700 .ssh
+$ chmod 600 .ssh/authorized_keys
+```
+3. ホストマシンから本番サーバーへ、SSH接続できるかチェック
+```sh
+$ cd 1で鍵を作ったディレクトリ
+$ ssh -i 1の鍵名 my_first_lamp_user@本番サーバのIPアドレス
+```
 
 ### 【*】本番サーバーのプロビジョニング(Ansibleで)
 
