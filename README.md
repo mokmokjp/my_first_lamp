@@ -316,20 +316,20 @@ $ service httpd restart
 ### 【III-5】本番サーバーのデプロイを行う(Jenkinsで)
 
 1. 本番サーバーにSSH接続して、公開鍵を作成
-鍵の生成。パスフレーズは空でする
-`
+```sh
+# 鍵の生成。パスフレーズは空でする
 $ sudo usermod -d /var/lib/jenkins -s /bin/bash jenkins
 $ cd /var/lib/jenkins
 $ sudo -u jenkins ssh-keygen
-`
-登録した鍵を通す
-`
+# 登録した鍵を通す
 $ vi ~/.ssh/config
-Host bitbucket.org
-  Hostname bitbucket.org
-  User git
-  IdentityFile /var/lib/jenkins/.ssh/id_rsa
-`
+    `
+    Host bitbucket.org
+      Hostname bitbucket.org
+      User git
+      IdentityFile /var/lib/jenkins/.ssh/id_rsa
+    `
+```
 
 2. Bitbucketに公開鍵を登録
 /var/lib/jenkins/.ssh/id_rsa.pub の内容をコピペ
