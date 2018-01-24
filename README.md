@@ -4,12 +4,14 @@
 ## 【I】概要
 
 Web制作・開発環境を作るためのボイラープレート
-- 仮想マシンはLAMP環境で、必要に応じてWordPress等のCMSを入れます
-- 仮想マシンはVirtualBox + Vagrant で構築し、Ansibleでプロビジョニングします
-- ホストマシン上にはnode.jsを入れ、GulpでのSASS・PostCSS・Babel環境を作ります
-- プロジェクトはGitでバージョン管理します
-- 本番サーバはJenkinsでデプロイします
-- GitHubとSlackを連携させます
+- LAMPを使用
+- Gitでバージョン管理
+- 仮想マシンはVirtualBox + Vagrant で構築し、Ansibleでプロビジョニング
+- 本番サーバはAnsibleでプロビジョニング
+- 本番サーバへJenkinsでデプロイ
+- 本番サーバ上には、staging環境とproduction環境を作成
+- GulpでのSASS・PostCSS・Babel環境
+- GitHubとSlackを連携
 
 ![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
