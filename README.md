@@ -276,17 +276,17 @@ $ ssh -i 1の鍵名 my_first_lamp_user@本番サーバのIPアドレス
 1. /etc/httpd/conf/httpd.confファイルを編集し、VirtualHostを有効にする
 ``sh
 $ sudo vim /etc/httpd/conf/httpd.conf
-    ``
+    `
     #NameVirtualHost *:80
     ↓
     NameVirtualHost *:80
-    ``
+    `
 ``
 
 2. /etc/httpd/conf.d/virtualhost.confファイルを作成
 ``sh
 $ sudo vim /etc/httpd/conf.d/virtualhost.conf
-    ``
+    `
     <VirtualHost *:80>
             ServerName 本番サーバーのドメイン名
             DocumentRoot /var/www/production/html/
@@ -305,7 +305,7 @@ $ sudo vim /etc/httpd/conf.d/virtualhost.conf
                     AllowOverride All
             </Directory>
     </VirtualHost>
-    ``
+    `
 ``
 
 3. apache再起動
