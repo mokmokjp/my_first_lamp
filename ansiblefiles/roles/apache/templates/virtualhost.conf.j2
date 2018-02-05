@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+    <VirtualHost *:80>
+            ServerName {{ ansible_eth0.ipv4.address }}
+            DocumentRoot {{ document_root }}
+            <Directory {{ document_root }}>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+    </VirtualHost>

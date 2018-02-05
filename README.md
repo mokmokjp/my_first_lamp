@@ -147,6 +147,7 @@ linux_newusers        :
     priv              : member
 git_version: "`自分で設定`"
 httpd_version: `自分で設定`
+document_root: `自分で設定`
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
 mysql_root_password: `自分で設定`
 mysql_repo_url: `自分で設定`

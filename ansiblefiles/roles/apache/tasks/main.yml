@@ -10,3 +10,18 @@
     name        : httpd
     state       : started
     enabled     : yes
+
+# DocumentRootを書き換え
+- name        : /etc/httpd/conf/httpd.confを書き換え
+  lineinfile  :
+    dest      : /etc/httpd/conf/httpd.conf
+    state     : present
+    backrefs  : yes
+    regexp    : '#NameVirtualHost \*:80'
+    line      : 'NameVirtualHost *:80'
+
+- name        : /etc/httpd/conf.d/virtualhost.confファイルを作成
+  notify      : httpd再起動
+  template    :
+    src       : virtualhost.conf.j2
+    dest      : /etc/virtualhost.conf

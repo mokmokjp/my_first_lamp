@@ -54,6 +54,7 @@ git_reinstall_from_source: false
 # https://github.com/geerlingguy/ansible-role-apache
 
 httpd_version: 2.2.15-60.el6.centos.6
+document_root: /var/www/localdev/html/
 
 ######################### MySQLの設定 #########################
 # https://github.com/geerlingguy/ansible-role-mysql
