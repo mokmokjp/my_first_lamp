@@ -24,4 +24,4 @@
   notify      : httpd再起動
   template    :
     src       : virtualhost.conf.j2
-    dest      : /etc/virtualhost.conf
+    dest      : /etc/httpd/conf.d/virtualhost.conf
