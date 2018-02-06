@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+
+    <VirtualHost *:80>
+            ServerName {{ target_domain_name }}
+            DocumentRoot {{ document_root_remote_production }}
+            <Directory {{ document_root_remote_production }}>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+    </VirtualHost>
+    <VirtualHost *:80>
+            ServerName staging.{{ target_domain_name }}
+            DocumentRoot {{ document_root_remote_staging }}
+            <Directory {{ document_root_remote_staging }}>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+    </VirtualHost>

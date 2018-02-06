@@ -42,4 +42,15 @@
 
 - name        : npm install
   command     : >
-    npm install chdir=/var/www/
+    npm install chdir={{ document_root_local_dev }}
+  when        : target_is_local
+
+- name        : npm install
+  command     : >
+    npm install chdir={{ document_root_remote_staging }}
+  when        : target_is_remote
+
+- name        : npm install
+  command     : >
+    npm install chdir={{ document_root_remote_production }}
+  when        : target_is_remote

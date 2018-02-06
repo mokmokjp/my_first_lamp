@@ -58,3 +58,31 @@
 
 # Update Jenkins and install configured plugins.
 - include: plugins.yml
+
+# ディレクトリ作成
+- name        : Create document root directory (local_dev)
+  file        :
+    path      : "{{ document_root_local_dev }}"
+    state     : directory
+    owner     : vagrant
+    group     : vagrant
+    mode      : 0755
+  when        : target_is_local
+
+- name        : Create document root directory (remote_staging)
+  file        :
+    path      : "{{ document_root_remote_staging }}"
+    state     : directory
+    owner     : jenkins
+    group     : jenkins
+    mode      : 0755
+  when        : target_is_remote
+
+- name        : Create document root directory (remote_production)
+  file        :
+    path      : "{{ document_root_remote_production }}"
+    state     : directory
+    owner     : jenkins
+    group     : jenkins
+    mode      : 0755
+  when        : target_is_remote

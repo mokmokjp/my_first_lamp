@@ -31,11 +31,12 @@ Web制作・開発環境を作るためのボイラープレート
 |メモリ|2GB|
 |ホスト名|my_first_lamp|
 |IPアドレス|`自分で設定`|
-|SSH|ユーザ名: Vagrant, パスワード: Vagrant|
-|SSH|ユーザ名: root, パスワード: Vagrant|
+|SSH|ユーザ名: vagrant, パスワード: vagrant|
+|SSH|ユーザ名: root, パスワード: vagrant|
 |DBユーザ|ユーザ名: root, パスワード: `自分で設定`|
 |DBユーザ|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
 |DB名|`自分で設定`|
+|ドキュメントルート|`自分で設定`|
 
 ===本番サーバー
 
@@ -46,6 +47,8 @@ Web制作・開発環境を作るためのボイラープレート
 |SSH|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
 |DBユーザ|ユーザ名: root, パスワード: `自分で設定`|
 |DBユーザ|ユーザ名: `自分で設定`, パスワード: `自分で設定`|
+|ドキュメントルート(ステージング)|`自分で設定`|
+|ドキュメントルート(プロダクション)|`自分で設定`|
 
 ===ホストマシン
 
@@ -57,7 +60,7 @@ Web制作・開発環境を作るためのボイラープレート
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
 
-node_modules(npmでプロジェクトルートにローカルインストール)
+===node_modules(npmでプロジェクトルートにローカルインストール)
 
 | 分類 | 内容 |
 |--|--|
@@ -77,7 +80,7 @@ node_modules(npmでプロジェクトルートにローカルインストール)
 |[postcss-sass](https://www.npmjs.com/package/postcss-sass)|v0.2.0|
 |[stylelint](https://www.npmjs.com/package/stylelint)|v8.2.0|
 
-gulpのビルド設定(全てgulpfile.jsに記述)
+===gulpのビルド設定(全てgulpfile.jsに記述)
 | 分類 | 内容 |
 |--|--|
 |autoprefixer|[サポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)|
@@ -134,9 +137,9 @@ config.vm.hostname = "`自分で設定`"
 config.vm.network "private_network", ip: "`自分で設定`"
 ```
 
-### 【II-4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザの設定
+### 【II-4】SSHユーザー、DBユーザー、DBネーム、Jenkinsユーザ、IPアドレス、ドキュメントルート、ドメイン名の設定
 
-次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
+1. 次のファイルを編集 `./ansiblefiles/group_vars/all.yml`:
 ```yml
 linux_newusers        :
   `自分で設定`         :
@@ -147,7 +150,9 @@ linux_newusers        :
     priv              : member
 git_version: "`自分で設定`"
 httpd_version: `自分で設定`
-document_root: `自分で設定`
+document_root_local_dev: `自分で設定`
+document_root_remote_staging: `自分で設定`
+document_root_remote_production: `自分で設定`
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
 mysql_root_password: `自分で設定`
 mysql_repo_url: `自分で設定`
@@ -171,6 +176,27 @@ jenkins_version: "`自分で設定`"
 jenkins_admin_username: `自分で設定`
 jenkins_admin_password: `自分で設定`
 nodejs_version: "`自分で設定`"
+```
+
+2. 次のファイルを編集 `/ansiblefiles/inventories/local.ini`:
+```ini
+[webservers]
+`【II-3】の仮想マシンのIPアドレスを入力`
+
+[dbservers]
+`【II-3】の仮想マシンのIPアドレスを入力`
+```
+
+3. 次のファイルを編集 `/ansiblefiles/inventories/remote.ini`:
+```ini
+[webservers]
+`本番サーバのIPアドレスを入力`
+
+[dbservers]
+`本番サーバのIPアドレスを入力`
+
+[remote:vars]
+target_domain_name=`本番サーバのドメイン名を入力`
 ```
 
 ### 【II-5】ホストマシンのフロントエンド開発環境を整える
@@ -208,25 +234,17 @@ $ npm install
 2. プロジェクトルートで`$ vagrant rsync-auto`コマンドを打ち、rsyncを自動で行うようにする
 3. プロジェクトルートで`$ npm run gulp watch`コマンドを打ち、gulpによるファイル監視と自動ビルドを有効にする
 4. ブラウザで確認する
-    - ホストマシンのブラウザで、「`【II-3】で自分で設定したIPアドレス`」「`ホストマシンのローカルIPアドレス:8080`」「`localhost:8080`」にアクセスすると、仮想マシンの`/var/www/html/index.html`が表示される
+    - ホストマシンのブラウザで、「`【II-3】で自分で設定したIPアドレス`」「`ホストマシンのローカルIPアドレス:8080`」「`localhost:8080`」にアクセスすると、仮想マシンの`【II-4】で設定したドキュメントルート/index.html`が表示される
     - LAN内のモバイル端末などで、「`ホストマシンのローカルIPアドレス:8080`」にアクセスすると同じく表示される
 
 ### 【III-2】本番サーバーのプロビジョニングを行う(Ansibleで)
 
 1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
 2. 本番サーバーの管理パネルからCentOs6をインストール
-3. `/ansiblefiles/inventories/remote_production.ini` を編集
-```ini
-[webservers]
-`1のIPアドレスを入力`
-
-[dbservers]
-`1のIPアドレスを入力`
-```
-4. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
-5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
+3. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
+4. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
 ```sh
-$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote_production.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
+$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
 ```
 
 ### 【III-3】本番サーバーにキー認証でのみログインできるようにする(手動設定)
@@ -272,49 +290,7 @@ $ cd 1で鍵を作ったディレクトリ
 $ ssh -i 1の鍵名 my_first_lamp_user@本番サーバのIPアドレス
 ```
 
-### 【III-4】本番サーバーのApacheの設定を行う(手動で)
-
-1. /etc/httpd/conf/httpd.confファイルを編集し、VirtualHostを有効にする
-```sh
-$ sudo vim /etc/httpd/conf/httpd.conf
-    `
-    #NameVirtualHost *:80
-    ↓
-    NameVirtualHost *:80
-    `
-```
-
-2. /etc/httpd/conf.d/virtualhost.confファイルを作成
-```sh
-$ sudo vim /etc/httpd/conf.d/virtualhost.conf
-    `
-    <VirtualHost *:80>
-            ServerName 本番サーバーのドメイン名
-            DocumentRoot /var/www/production/html/
-            <Directory /var/www/production/html/>
-                    Options All
-                    Allow from All
-                    AllowOverride All
-            </Directory>
-    </VirtualHost>
-    <VirtualHost *:80>
-            ServerName staging.本番サーバーのドメイン名
-            DocumentRoot /var/www/staging/html/
-            <Directory /var/www/staging/html/>
-                    Options All
-                    Allow from All
-                    AllowOverride All
-            </Directory>
-    </VirtualHost>
-    `
-```
-
-3. apache再起動
-``sh
-$ service httpd restart
-``
-
-### 【III-5】本番サーバーのデプロイを行う(Jenkinsで)
+### 【III-4】本番サーバーのデプロイを行う(Jenkinsで)
 
 1. 本番サーバーにSSH接続して、公開鍵を作成
 ```sh
@@ -384,7 +360,52 @@ SCMをポーリング: チェックオフ
                 npm run gulp
 ```
 
-8. 本番サーバーの`/var/www/production`、`/var/www/staging`で`$npm install`しておく
+### 【III-5】開発・テスト・デプロイのワークフロー(GitHub Flow)
+
+【開発】
+1. masterからトピックブランチを切る
+2. 開発し、コミットを続ける
+3. トピックブランチは定期的にプッシュする
+4. masterは定期的にプルする
+
+【テスト、フィードバック開発】
+1. 最新のmasterからトピックブランチへマージ
+2. コードレビュー、テスト(仮想マシンや、ステージング環境で)
+3. フィードバック開発をし、コミットする
+
+【リリース】
+1. トピックブランチから最新のmasterへマージ
+2. masterをプッシュ
+3. ローカルリポジトリでトピックブランチを削除し、リモートリポジトリでもトピックブランチを削除
+4. リリースする
+
+### 【III-*】WinSCPで仮想マシンに接続する方法
+
+- 転送プロトコル: SFTP
+- ホスト名: 「`【II-3】で自分で設定したIPアドレス`」
+- ユーザ名: vagrant
+- パスワード: vagrant
+- 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
+
+### 【III-*】Adminerにアクセスする方法
+
+- 仮想マシンの場合、「`【II-3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
+- 本番サーバーの場合、「`本番サーバーのドメイン名/adminer/`」でアクセスできる
+
+### 【III-*】Jenkinsにアクセスする方法
+
+- 仮想マシンの場合、「`【II-3】で自分で設定したIPアドレス:8080`」でアクセスできる
+- 本番サーバーの場合、「`本番サーバーのドメイン名:8080`」でアクセスできる
+
+### 【III-*】本番サーバーにアクセスする方法
+
+- プロダクションへは、「`本番サーバーのドメイン名`」
+- ステージングへは、「`staging.本番サーバーのドメイン名`」
+
+### 【III-*】DBのエクスポート、インポートを行う方法
+
+1. Adminerにログインし、エクスポート
+2. Adminerにログインし、1をインポート
 
 ### 【III-*】EC-CUBE2.X系のインストール方法
 
@@ -396,27 +417,6 @@ SCMをポーリング: チェックオフ
 6. ブラウザで「【II-3】で自分で設定したIPアドレス/install/」にアクセス
 7. 画面の指示に従ってインストールを行う
 
-### 【III-*】WinSCPで仮想マシンに接続する方法
-- 転送プロトコル: SFTP
-- ホスト名: 「`【II-3】で自分で設定したIPアドレス`」
-- ユーザ名: vagrant
-- パスワード: vagrant
-- 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
-
-### 【III-*】仮想マシン上のAdminerにアクセスする方法
-
-1. 「`【II-3】で自分で設定したIPアドレス/adminer/`」でアクセスできる
-
-### 【III-*】仮想マシン上のJenkinsにアクセスする方法
-
-1. 仮想マシン上のJenkinsには「`【II-3】で自分で設定したIPアドレス:8080`」でアクセスできる
-
-### 【III-*】DBのエクスポート、インポートを行う方法
-
-1. Adminerにログインし、エクスポート
-2. Adminerにログインし、1をインポート
-
-
 ## 【IV】その他知識
 
 ## 【IV-1】このファイル・ディレクトリ何？
@@ -427,7 +427,7 @@ SCMをポーリング: チェックオフ
 |.vagrant/|Vagrantが自動生成するディレクトリ|
 |ansiblefiles/|AnsiblePlaybookを格納しているディレクトリ|
 |docs/|my_first_lampのドキュメントを格納してるディレクトリ|
-|html/|/var/www/html/(Webサーバーのルートディレクトリ)、にアップロードするディレクトリ|
+|html/|Apacheのドキュメントルートにアップロードするディレクトリ|
 |node_modules/|npmで、package.jsonをもとにローカルインストールしたnode.jsのpackageを格納しているディレクトリ|
 |.editorconfig|テキストエディタの設定|
 |.gitignore|Gitでバージョン管理から除外するファイル・ディレクトリ、を記述するファイル|

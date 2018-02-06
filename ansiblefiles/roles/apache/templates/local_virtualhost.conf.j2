@@ -2,8 +2,8 @@
 
     <VirtualHost *:80>
             ServerName {{ ansible_eth0.ipv4.address }}
-            DocumentRoot {{ document_root }}
-            <Directory {{ document_root }}>
+            DocumentRoot {{ document_root_local_dev }}
+            <Directory {{ document_root_local_dev }}>
                     Options All
                     Allow from All
                     AllowOverride All
