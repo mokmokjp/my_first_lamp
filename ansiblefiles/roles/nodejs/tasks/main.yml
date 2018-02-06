@@ -40,17 +40,19 @@
     path: "{{ nodejs_package_json_path }}"
   when: nodejs_package_json_path is defined and nodejs_package_json_path
 
-- name        : npm install
+- name        : npm install (local_dev)
   command     : >
     npm install chdir={{ document_root_local_dev }}
   when        : target_is_local
 
-- name        : npm install
+- name        : npm install (remote_staging)
   command     : >
     npm install chdir={{ document_root_remote_staging }}
   when        : target_is_remote
 
-- name        : npm install
+- name        : npm install (remote_production)
   command     : >
     npm install chdir={{ document_root_remote_production }}
   when        : target_is_remote
+
+
