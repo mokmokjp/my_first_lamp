@@ -280,7 +280,7 @@ $ visudo
 $ su - my_first_lamp_user
 $ cd ~
 $ mkdir .ssh
-$ echo 'ホストマシンの、.ssh/time4vps.pubの内容' >> .ssh/authorized_keys
+$ echo 'ホストマシンの、.ssh/任意の鍵名.pubの内容' >> .ssh/authorized_keys
 $ chmod 700 .ssh
 $ chmod 600 .ssh/authorized_keys
 ```
@@ -333,7 +333,7 @@ Repository URL: git@bitbucket.org:bitbucketのユーザ名/リポジトリ名.gi
 リポジトリ・ブラウザ: bitbucketweb
 URL: https://bitbucketのユーザ名@bitbucket.org/リポジトリ名.git
 SCMをポーリング: チェックオフ
-ビルド後の処理: gulp production
+ビルド後の処理>他のプロジェクトのビルド: gulp production
 ```
 
 5. 4をコピーして、ジョブを追加
@@ -341,7 +341,7 @@ SCMをポーリング: チェックオフ
 プロジェクト名: deploy staging
 説明: /var/www/staging/ にデプロイする
 プロジェクトの高度なオプション>カスタムワークスペースを使用: /var/www/staging/
-ビルド後の処理: gulp staging
+ビルド後の処理>他のプロジェクトのビルド: gulp staging
 ```
 
 6. 本番サーバーのJenkinsにジョブを追加
