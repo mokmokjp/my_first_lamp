@@ -150,8 +150,11 @@ linux_newusers        :
     priv              : member
 git_version: "`自分で設定`"
 httpd_version: `自分で設定`
+project_root_local_dev: `自分で設定`
 document_root_local_dev: `自分で設定`
+project_root_remote_staging: `自分で設定`
 document_root_remote_staging: `自分で設定`
+project_root_remote_production: `自分で設定`
 document_root_remote_production: `自分で設定`
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
 mysql_root_password: `自分で設定`
@@ -359,6 +362,8 @@ SCMをポーリング: チェックオフ
 ビルド>シェルの実行: cd /var/www/staging/
                 npm run gulp
 ```
+
+8. 本番サーバーの`/var/www/production`、`/var/www/staging`で`$npm install`しておく
 
 ### 【III-5】開発・テスト・デプロイのワークフロー(GitHub Flow)
 
