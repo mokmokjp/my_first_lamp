@@ -12,7 +12,7 @@
     enabled     : yes
 
 # DocumentRootを書き換え
-- name        : /etc/httpd/conf/httpd.confを書き換え
+- name        : VirtualHostを有効にする
   lineinfile  :
     dest      : /etc/httpd/conf/httpd.conf
     state     : present
@@ -20,14 +20,14 @@
     regexp    : '#NameVirtualHost \*:80'
     line      : 'NameVirtualHost *:80'
 
-- name        : 仮想マシンに/etc/httpd/conf.d/virtualhost.confファイルを作成
+- name        : 仮想マシンにVirtualHostの設定ファイルを作成
   notify      : httpd再起動
   template    :
     src       : local_virtualhost.conf.j2
     dest      : /etc/httpd/conf.d/virtualhost.conf
   when        : target_is_local
 
-- name        : 本番サーバーに/etc/httpd/conf.d/virtualhost.confファイルを作成
+- name        : 本番サーバーにVirtualHostの設定ファイルを作成
   notify      : httpd再起動
   template    :
     src       : remote_virtualhost.conf.j2
