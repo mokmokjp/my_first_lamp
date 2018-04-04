@@ -137,3 +137,19 @@
 
 - name        : updatedbコマンド実行
   shell       : updatedb
+
+# python
+- name        : pipをインストール
+  yum         :
+    name      : python-pip
+    state     : installed
+
+- name        : pipをアップデート
+  pip         :
+    name      : pip
+    state     : latest
+
+- name        : pexpectをインストール
+  pip         :
+    name      : pexpect
+    state     : present
