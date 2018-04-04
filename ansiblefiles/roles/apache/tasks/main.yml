@@ -10,8 +10,9 @@
     name        : httpd
     state       : started
     enabled     : yes
+  ignore_errors : true
 
-# SSL
+# SSLに必要なものをインストール
 - name          : mod_sslインストール
   yum           :
     name        : mod_ssl
@@ -21,6 +22,63 @@
   yum           :
     name        : openssl
     state       : installed
+
+# SSL用の秘密鍵を生成
+- name      : SSL用の秘密鍵を生成 local_dev
+  command   : "openssl genrsa -out {{ ssl_key_local_dev }} 2048"
+  args      :
+    creates : "{{ ssl_key_local_dev }}"
+  when      : target_is_local
+
+- name      : SSL用の秘密鍵を生成 remote_staging
+  command   : "openssl genrsa -out {{ ssl_key_remote_staging }} 2048"
+  args      :
+    creates : "{{ ssl_key_remote_staging }}"
+  when      : target_is_remote
+
+- name      : SSL用の秘密鍵を生成 remote_production
+  command   : "openssl genrsa -out {{ ssl_key_remote_production }} 2048"
+  args      :
+    creates : "{{ ssl_key_remote_production }}"
+  when      : target_is_remote
+
+# SSLのCSRを生成
+- name      : SSLのCSRを生成 local_dev
+  command   : "openssl req -new -key {{ ssl_key_local_dev }} -out {{ ssl_csr_local_dev }} -subj '/C=JP/ST=Tokyo/L=Tokyo/O=ltd/OU=Web/CN=domain'"
+  args      :
+    creates : "{{ ssl_csr_local_dev }}"
+  when      : target_is_local
+
+- name      : SSLのCSRを生成 remote_staging
+  command   : "openssl req -new -key {{ ssl_key_remote_staging }} -out {{ ssl_csr_remote_staging }} -subj '/C=JP/ST=Tokyo/L=Tokyo/O=ltd/OU=Web/CN=domain'"
+  args      :
+    creates : "{{ ssl_csr_remote_staging }}"
+  when      : target_is_remote
+
+- name      : SSLのCSRを生成 remote_production
+  command   : "openssl req -new -key {{ ssl_key_remote_production }} -out {{ ssl_csr_remote_production }} -subj '/C=JP/ST=Tokyo/L=Tokyo/O=ltd/OU=Web/CN=domain'"
+  args      :
+    creates : "{{ ssl_csr_remote_production }}"
+  when      : target_is_remote
+
+# SSLの自己証明書を生成
+- name      : SSLの自己証明書を生成 local_dev
+  command   : "openssl x509 -in {{ ssl_csr_local_dev }} -days 3650 -req -signkey {{ ssl_key_local_dev }} -out {{ ssl_crt_local_dev }}"
+  args      :
+    creates : "{{ ssl_crt_local_dev }}"
+  when      : target_is_local
+
+- name      : SSLの自己証明書を生成 remote_staging
+  command   : "openssl x509 -in {{ ssl_csr_remote_staging }} -days 3650 -req -signkey {{ ssl_key_remote_staging }} -out {{ ssl_crt_remote_staging }}"
+  args      :
+    creates : "{{ ssl_crt_remote_staging }}"
+  when      : target_is_remote
+
+- name      : SSLの自己証明書を生成 remote_production
+  command   : "openssl x509 -in {{ ssl_csr_remote_production }} -days 3650 -req -signkey {{ ssl_key_remote_production }} -out {{ ssl_crt_remote_production }}"
+  args      :
+    creates : "{{ ssl_crt_remote_production }}"
+  when      : target_is_remote
 
 # VirtualHostの設定
 - name        : VirtualHostを有効にする

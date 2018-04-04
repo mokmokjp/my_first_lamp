@@ -249,38 +249,19 @@ $ npm install
 ### 【III-1】仮想マシンのプロビジョニング
 
 1. プロジェクトルートで`$ vagrant up`コマンドを打ち、仮想マシンを起動する
-2. 仮想マシンで、SSL用の秘密鍵と自己証明書を生成する
-```sh
-$ cd /etc/pki/tls/certs
-$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout local_dev.key -out local_dev.crt
-  # 以下は空白でOK
-  Country Name (2 letter code) [XX]:
-  State or Province Name (full name) []:
-  Locality Name (eg, city) [Default City]:
-  Organization Name (eg, company) [Default Company Ltd]:
-  Organizational Unit Name (eg, section) []:
-  Common Name (eg, your name or your server's hostname) []:
-  Email Address []:
-```
-3. プロビジョニングが止まった場合は、プロジェクトルートで`$ vagrant provision`コマンドを打つ
+2. プロビジョニングが止まった場合は、プロジェクトルートで`$ vagrant provision`コマンドを打つと再開できる
 
 ### 【III-2】本番サーバーのプロビジョニングを行う(Ansibleで)
 
 1. 本番サーバーをレンタルして、IPアドレスとSSHのrootパスワードを入手する。
 2. 本番サーバーの管理パネルからCentOs6をインストール
 3. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
-4. 本番サーバで、SSL用の秘密鍵と自己証明書を生成する (本番サーバを一般公開する場合は、正規の証明書を購入すること)
-```sh
-$ cd /etc/pki/tls/certs
-$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout remote_staging.key -out remote_staging.crt
-$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout remote_production.key -out remote_production.crt
-```
-5. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
+4. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
 ```sh
 $ ansible-playbook /vagrant/ansiblefiles/site.yml -i /vagrant/ansiblefiles/inventories/remote.ini --user=root --ask-pass -c paramiko
 ```
 
-※【III-3】を実施した後は、5のコマンドが使えないので、以下で実施する
+※ 【III-3】を実施した後は、上記4のコマンドが使えないので、以下で実施する
 1. ホストマシンに[puttygen.exe](http://www.tempest.jp/security/keygen.html)をインストールする
 2. puttygen.exeを起動し、Loadから【III-3】の1で作った「任意の鍵名.ppk」を選択、[Conversions]>[Export OpenSSH key]で、「任意の鍵名.pem」としてエクスポート
 3. 「任意の鍵名.pem」を、仮想マシンの/vagrant/ディレクトリに配置し、パーミッション600にする
@@ -288,6 +269,8 @@ $ ansible-playbook /vagrant/ansiblefiles/site.yml -i /vagrant/ansiblefiles/inven
 ```sh
 $ ansible-playbook /vagrant/ansiblefiles/site.yml -i /vagrant/ansiblefiles/inventories/remote.ini --user=ユーザ名 --private-key=/vagrant/鍵名.pem
 ```
+
+※ 本番サーバのSSLには自己証明書を使っているが、一般公開する場合は、正規の証明書を購入すること
 
 ### 【III-3】本番サーバーにキー認証でのみログインできるようにする(手動設定)
 
