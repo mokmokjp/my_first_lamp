@@ -156,6 +156,20 @@ project_root_remote_staging: `自分で設定`
 document_root_remote_staging: `自分で設定`
 project_root_remote_production: `自分で設定`
 document_root_remote_production: `自分で設定`
+ssl_cipher_suite: `自分で設定`
+ssl_protocol: `自分で設定`
+ssl_crt_local_dev: `自分で設定`
+ssl_crt_remote_staging: `自分で設定`
+ssl_crt_remote_production: `自分で設定`
+ssl_key_local_dev: `自分で設定`
+ssl_key_remote_staging: `自分で設定`
+ssl_key_remote_production: `自分で設定`
+ssl_error_log_local_dev: `自分で設定`
+ssl_error_log_remote_staging: `自分で設定`
+ssl_error_log_remote_production: `自分で設定`
+ssl_access_log_local_dev: `自分で設定`
+ssl_access_log_remote_staging: `自分で設定`
+ssl_access_log_remote_production: `自分で設定`
 mysql_user_password: `↓のmysql_root_passwordと同じ値を自分で設定`
 mysql_root_password: `自分で設定`
 mysql_repo_url: `自分で設定`
@@ -212,13 +226,13 @@ target_domain_name=`本番サーバのドメイン名を入力`
 $ npm install
 ```
 
-### 【II-6】仮想マシンのSSL設定
+### 【II-6】SSL設定
 
 1. 仮想マシンで、SSL用の秘密鍵と証明書を生成する
 ```sh
 $ cd /etc/pki/tls/certs
-$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout myssl.key -out myssl.crt
-$ # 以下は空白でOK
+$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout local_dev.key -out local_dev.crt
+  # 以下は空白でOK
   Country Name (2 letter code) [XX]:
   State or Province Name (full name) []:
   Locality Name (eg, city) [Default City]:
@@ -226,6 +240,12 @@ $ # 以下は空白でOK
   Organizational Unit Name (eg, section) []:
   Common Name (eg, your name or your server's hostname) []:
   Email Address []:
+```
+2. 本番サーバで、開発用にSSL用の秘密鍵と証明書を生成する (本番サーバを一般公開する場合は、正規の証明書を購入すること)
+```sh
+$ cd /etc/pki/tls/certs
+$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout remote_staging.key -out remote_staging.crt
+$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout remote_production.key -out remote_production.crt
 ```
 
 ### 【II-7】.editorconfigファイルの設定をテキストエディタに適用する

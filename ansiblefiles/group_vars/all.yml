@@ -61,12 +61,20 @@ document_root_remote_staging: /var/www/staging/html/
 project_root_remote_production: /var/www/production/
 document_root_remote_production: /var/www/production/html/
 
-apache_ssl_cipher_suite: AES256+EECDH:AES256+EDH
-apache_ssl_protocol: All -SSLv2 -SSLv3
-apache_ssl_certificate_file: /etc/pki/tls/certs/myssl.crt
-apache_ssl_certificate_key_file: /etc/pki/tls/certs/myssl.key
-apache_ssl_error_log: /var/log/httpd/ssl_error_log
-apache_ssl_access_log: /var/log/httpd/ssl_access_log
+ssl_cipher_suite: AES256+EECDH:AES256+EDH
+ssl_protocol: All -SSLv2 -SSLv3
+ssl_crt_local_dev: /etc/pki/tls/certs/local_dev.crt
+ssl_crt_remote_staging: /etc/pki/tls/certs/remote_staging.crt
+ssl_crt_remote_production: /etc/pki/tls/certs/remote_production.crt
+ssl_key_local_dev: /etc/pki/tls/certs/local_dev.key
+ssl_key_remote_staging: /etc/pki/tls/certs/remote_staging.key
+ssl_key_remote_production: /etc/pki/tls/certs/remote_production.key
+ssl_error_log_local_dev: /var/log/httpd/ssl_error_log_local_dev
+ssl_error_log_remote_staging: /var/log/httpd/ssl_error_log_remote_staging
+ssl_error_log_remote_production: /var/log/httpd/ssl_error_log_remote_production
+ssl_access_log_local_dev: /var/log/httpd/ssl_access_log_local_dev
+ssl_access_log_remote_staging: /var/log/httpd/ssl_access_log_remote_staging
+ssl_access_log_remote_production: /var/log/httpd/ssl_access_log_remote_production
 
 ######################### MySQLの設定 #########################
 # https://github.com/geerlingguy/ansible-role-mysql

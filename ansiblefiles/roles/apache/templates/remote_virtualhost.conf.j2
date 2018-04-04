@@ -18,3 +18,40 @@
                     AllowOverride All
             </Directory>
     </VirtualHost>
+
+    <VirtualHost *:443>
+            ServerName {{ target_domain_name }}
+            DocumentRoot {{ document_root_remote_production }}
+            <Directory {{ document_root_remote_production }}>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+            SSLEngine on
+            SSLCipherSuite {{ ssl_cipher_suite }}
+            SSLProtocol {{ ssl_protocol }}
+            SSLHonorCipherOrder On
+            SSLCertificateFile {{ ssl_crt_remote_production }}
+            SSLCertificateKeyFile {{ ssl_key_remote_production }}
+            ErrorLog {{ ssl_error_log_remote_production }}
+            CustomLog {{ ssl_access_log_remote_production }} combined
+            AddDefaultCharset UTF-8
+    </VirtualHost>
+    <VirtualHost *:443>
+            ServerName staging.{{ target_domain_name }}
+            DocumentRoot {{ document_root_remote_staging }}
+            <Directory {{ document_root_remote_staging }}>
+                    Options All
+                    Allow from All
+                    AllowOverride All
+            </Directory>
+            SSLEngine on
+            SSLCipherSuite {{ ssl_cipher_suite }}
+            SSLProtocol {{ ssl_protocol }}
+            SSLHonorCipherOrder On
+            SSLCertificateFile {{ ssl_crt_remote_staging }}
+            SSLCertificateKeyFile {{ ssl_key_remote_staging }}
+            ErrorLog {{ ssl_error_log_remote_staging }}
+            CustomLog {{ ssl_access_log_remote_staging }} combined
+            AddDefaultCharset UTF-8
+    </VirtualHost>

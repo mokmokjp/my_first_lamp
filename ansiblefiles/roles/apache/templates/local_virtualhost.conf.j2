@@ -19,12 +19,12 @@
                     AllowOverride All
             </Directory>
             SSLEngine on
-            SSLCipherSuite {{ apache_ssl_cipher_suite }}
-            SSLProtocol {{ apache_ssl_protocol }}
+            SSLCipherSuite {{ ssl_cipher_suite }}
+            SSLProtocol {{ ssl_protocol }}
             SSLHonorCipherOrder On
-            SSLCertificateFile {{ apache_ssl_certificate_file }}
-            SSLCertificateKeyFile {{ apache_ssl_certificate_key_file }}
-            ErrorLog {{ apache_ssl_error_log }}
-            CustomLog {{ apache_ssl_access_log }} combined
+            SSLCertificateFile {{ ssl_crt_local_dev }}
+            SSLCertificateKeyFile {{ ssl_key_local_dev }}
+            ErrorLog {{ ssl_error_log_local_dev }}
+            CustomLog {{ ssl_access_log_local_dev }} combined
             AddDefaultCharset UTF-8
     </VirtualHost>
