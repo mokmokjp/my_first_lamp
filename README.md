@@ -264,7 +264,16 @@ $ # 以下は空白でOK
 3. ホストマシンで、`$ vagrant up`で仮想マシンを立ち上げ、`$ vagrant ssh`で仮想マシンにssh接続する
 4. 仮想マシンで以下コマンドを実行し、パスワードを求められるので1のものを入力
 ```sh
-$ ansible-playbook -i /vagrant/ansiblefiles/inventories/remote.ini /vagrant/ansiblefiles/site.yml --user=root --ask-pass -c paramiko
+$ ansible-playbook /vagrant/ansiblefiles/site.yml -i /vagrant/ansiblefiles/inventories/remote.ini --user=root --ask-pass -c paramiko
+```
+
+※【III-3】を実施した後は、4のコマンドが使えないので、以下で実施する
+1. ホストマシンに[puttygen.exe](http://www.tempest.jp/security/keygen.html)をインストールする
+2. puttygen.exeを起動し、Loadから【III-3】の1で作った「任意の鍵名.ppk」を選択、[Conversions]>[Export OpenSSH key]で、「任意の鍵名.pem」としてエクスポート
+3. 「任意の鍵名.pem」を、仮想マシンの/vagrant/ディレクトリに配置し、パーミッション600にする
+4. 仮想マシンで以下コマンドを実行
+```sh
+$ ansible-playbook /vagrant/ansiblefiles/site.yml -i /vagrant/ansiblefiles/inventories/remote.ini --user=ユーザ名 --private-key=/vagrant/鍵名.pem
 ```
 
 ### 【III-3】本番サーバーにキー認証でのみログインできるようにする(手動設定)
