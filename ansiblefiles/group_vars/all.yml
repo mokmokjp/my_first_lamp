@@ -61,6 +61,13 @@ document_root_remote_staging: /var/www/staging/html/
 project_root_remote_production: /var/www/production/
 document_root_remote_production: /var/www/production/html/
 
+apache_ssl_cipher_suite: AES256+EECDH:AES256+EDH
+apache_ssl_protocol: All -SSLv2 -SSLv3
+apache_ssl_certificate_file: /etc/pki/tls/certs/myssl.crt
+apache_ssl_certificate_key_file: /etc/pki/tls/certs/myssl.key
+apache_ssl_error_log: /var/log/httpd/ssl_error_log
+apache_ssl_access_log: /var/log/httpd/ssl_access_log
+
 ######################### MySQLの設定 #########################
 # https://github.com/geerlingguy/ansible-role-mysql
 

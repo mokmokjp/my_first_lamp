@@ -11,14 +11,32 @@
     state       : started
     enabled     : yes
 
-# DocumentRootを書き換え
+# SSL
+- name          : mod_sslインストール
+  yum           :
+    name        : mod_ssl
+    state       : installed
+
+- name          : opensslインストール
+  yum           :
+    name        : openssl
+    state       : installed
+
+# VirtualHostの設定
 - name        : VirtualHostを有効にする
+  notify      : httpd再起動
   lineinfile  :
     dest      : /etc/httpd/conf/httpd.conf
     state     : present
     backrefs  : yes
     regexp    : '#NameVirtualHost \*:80'
     line      : 'NameVirtualHost *:80'
+
+- name        : VirtualHostを有効にする(SSL)
+  notify      : httpd再起動
+  template    :
+    src       : ssl.conf.j2
+    dest      : /etc/httpd/conf.d/ssl.conf
 
 - name        : 仮想マシンにVirtualHostの設定ファイルを作成
   notify      : httpd再起動

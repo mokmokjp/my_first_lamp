@@ -212,7 +212,23 @@ target_domain_name=`本番サーバのドメイン名を入力`
 $ npm install
 ```
 
-### 【II-6】.editorconfigファイルの設定をテキストエディタに適用する
+### 【II-6】仮想マシンのSSL設定
+
+1. 仮想マシンで、SSL用の秘密鍵と証明書を生成する
+```sh
+$ cd /etc/pki/tls/certs
+$ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout myssl.key -out myssl.crt
+$ # 以下は空白でOK
+  Country Name (2 letter code) [XX]:
+  State or Province Name (full name) []:
+  Locality Name (eg, city) [Default City]:
+  Organization Name (eg, company) [Default Company Ltd]:
+  Organizational Unit Name (eg, section) []:
+  Common Name (eg, your name or your server's hostname) []:
+  Email Address []:
+```
+
+### 【II-7】.editorconfigファイルの設定をテキストエディタに適用する
 
 - [Atomの場合](https://atom.io/packages/editorconfig)
 - [Bracketsの場合](https://github.com/kidwm/brackets-editorconfig)
@@ -222,7 +238,7 @@ $ npm install
 - [Vimの場合](https://github.com/editorconfig/editorconfig-vim)
 - [VisualStudioの場合](https://docs.microsoft.com/ja-jp/visualstudio/ide/create-portable-custom-editor-options)
 
-### 【II-7】GitHubにgit pushしたら、Slackに通知する
+### 【II-8】GitHubにgit pushしたら、Slackに通知する
 
 1. Slackのアカウントを作成する
 2. [https://my.slack.com/apps](https://my.slack.com/apps)にアクセスし、SlackにGitHubのインテグレーションを追加する。通知先のチャンネルを選択し、GitHubアカウントを選択する
