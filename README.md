@@ -81,6 +81,7 @@ Web制作・開発環境を作るためのボイラープレート
 |[stylelint](https://www.npmjs.com/package/stylelint)|v8.2.0|
 
 ===gulpのビルド設定(全てgulpfile.jsに記述)
+
 | 分類 | 内容 |
 |--|--|
 |autoprefixer|[サポートするブラウザ](http://browserl.ist/?q=last+1+Chrome+versions%2C+last+1+Firefox+versions%2C+last+1+Explorer+versions%2C+last+1+Edge+versions%2C+last+1+Safari+versions%2C+last+1+ios_saf+versions%2C+last+1+and_chr+versions%2C+last+1+Android+versions)|
@@ -479,13 +480,13 @@ SCMをポーリング: チェックオフ
 
 `$vagrant up`できない
 - PCの仮想化支援機能を有効にする。
-- ディレクトリ・ファイル名に日本語が含まれていたら、英数に治す
+- ディレクトリ・ファイル名に日本語・全角文字が含まれていたら、英数に治す
 - 他のプロジェクトの仮想マシンを起動中の場合は、`$vagrant halt`で一度終了させておく
 
 `$ vagrant rsync-auto`が動作しない
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
 - Vagrant2.0.0で発生するバグ。`C:\HashiCorp\Vagrant\embedded\gems\gems\vagrant-2.0.0\lib\vagrant\util\platform.rb`をhttps://github.com/briancain/vagrant/blob/3c9e1c9d84812c67119f2756629e47167604f28a/lib/vagrant/util/platform.rbのコードで書き換える。
-- ファイル名に日本語を使用しない
+- ディレクトリ・ファイル名に日本語・全角文字が含まれていたら、英数に治す
 
 ### 【IV-3】仮想マシンの起動、プロビジョニング、終了など
 
