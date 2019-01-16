@@ -148,8 +148,10 @@
   pip         :
     name      : pip
     state     : latest
+  ignore_errors : true
 
 - name        : pexpectをインストール
   pip         :
     name      : pexpect
     state     : present
+  ignore_errors : true
