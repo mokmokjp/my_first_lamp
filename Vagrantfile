@@ -3,6 +3,7 @@
 
 # バージョン2形式で、仮想マシンの定義を開始
 Vagrant.configure(2) do |config|
+  Encoding.default_external = 'UTF-8'
   # VirtualBoxの設定
   config.vm.provider :virtualbox do |v|
     v.name = "myfirstlamp"
