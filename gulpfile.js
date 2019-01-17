@@ -68,7 +68,8 @@ var stylelint_config = {
     }]
   },
   ignoreFiles: [
-    'src/html5doctorreset.css'
+    'html/src/css/reset.css',
+    'html/src/css/html5doctorreset.css'
   ]
 }
 
