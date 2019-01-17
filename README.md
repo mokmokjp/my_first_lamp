@@ -55,8 +55,8 @@ Web制作・開発環境を作るためのボイラープレート
 | 分類 | 内容 |
 |--|--|
 |OS|Windows10|
-|[node.js](https://nodejs.org/ja/docs/)|v8.9.1|
-|[npm](https://docs.npmjs.com)|v5.5.1|
+|[node.js](https://nodejs.org/ja/docs/)|v10.15.0|
+|[npm](https://docs.npmjs.com)|v6.4.1|
 |バージョン管理|[Git](https://git-scm.com/book/ja/v2) v2.14.1|
 |その他ソフト|[Cygwin](https://cygwin.com/cygwin-ug-net.html) (ssh, rsync)|
 
@@ -73,7 +73,7 @@ Web制作・開発環境を作るためのボイラープレート
 |[gulp-concat](https://www.npmjs.com/package/gulp-concat)|v2.6.1|
 |[gulp-eslint](https://www.npmjs.com/package/gulp-eslint)|v4.0.0|
 |[gulp-postcss](https://www.npmjs.com/package/gulp-postcss)|v7.0.0|
-|[gulp-sass](https://www.npmjs.com/package/gulp-sass)|v3.1.0|
+|[gulp-sass](https://www.npmjs.com/package/gulp-sass)|v4.0.2|
 |[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps)|v2.6.1|
 |[gulp-uglify](https://www.npmjs.com/package/gulp-uglify)|v3.0.0|
 |[postcss-reporter](https://www.npmjs.com/package/postcss-reporter)|v5.0.0|
