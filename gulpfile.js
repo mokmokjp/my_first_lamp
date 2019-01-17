@@ -45,12 +45,31 @@ var autoprefixer_config = {
 
 // stylelintの設定
 // https://stylelint.io/user-guide/rules/
+// https://github.com/stylelint/stylelint-config-standard
 var stylelint_config = {
   rules: {
+    'at-rule-name-case': [ 'lower', {
+      'message': '@ルール名は小文字で記述してください'
+    } ],
     'color-hex-length': [ 'long', {
       'message': '色は#000000形式で記述してください'
-    } ]
-  }
+    } ],
+    'declaration-block-no-redundant-longhand-properties' : [ true, {
+      'message': 'ショートハンドで記述してください'
+    } ],
+    'number-leading-zero' : [ 'always', {
+      'message': '0を省略せず記述してください'
+    }],
+    'property-case' : [ 'lower', {
+      'message': 'プロパティーは小文字で記述してください'
+    }],
+    'selector-list-comma-newline-after' : [ 'always', {
+      'message': 'セレクタをカンマでつなげる場合は、改行して記述してください'
+    }]
+  },
+  ignoreFiles: [
+    'src/html5doctorreset.css'
+  ]
 }
 
 // babelの設定
