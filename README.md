@@ -16,7 +16,6 @@ Web制作・開発環境を作るためのボイラープレート
 ![env](https://raw.githubusercontent.com/mokmokjp/my_first_lamp/master/docs/env.png "env")
 
 ===仮想マシン
-
 | 分類 | 内容 |
 |--|--|
 |OS(VagrantBox)|[bento/centos-6.7 Vagrant box](https://app.vagrantup.com/bento/boxes/centos-6.7) v2.2.7|
@@ -487,6 +486,11 @@ SCMをポーリング: チェックオフ
 - Windowsではrsyncがデフォルトで使えないので、[Cygwin](https://cygwin.com/cygwin-ug-net.html)でrsyncをインストールしておく。
 - Vagrant2.0.0で発生するバグ。`C:\HashiCorp\Vagrant\embedded\gems\gems\vagrant-2.0.0\lib\vagrant\util\platform.rb`をhttps://github.com/briancain/vagrant/blob/3c9e1c9d84812c67119f2756629e47167604f28a/lib/vagrant/util/platform.rbのコードで書き換える。
 - ディレクトリ・ファイル名に日本語・全角文字が含まれていたら、英数に治す
+
+Ansibleのプロビジョニングに失敗する
+- ネット回線が不安定な場合、安定した状態で再度行う
+- プロビジョニング中にほかの操作を行っていると、仮想マシンの動作が不安定になり失敗することがある
+
 
 ### 【IV-3】仮想マシンの起動、プロビジョニング、終了など
 
