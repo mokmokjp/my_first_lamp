@@ -422,7 +422,7 @@ SCMをポーリング: チェックオフ
 - ホスト名: 「`【II-3】で自分で設定したIPアドレス`」
 - ユーザ名: vagrant
 - パスワード: vagrant
-- 設定>SSH>認証>秘密鍵: .vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
+- 設定>SSH>認証>秘密鍵: プロジェクトディレクトリ/.vagrant/machines/default/virtualbox/private_keyを選択するとppk形式に変換されるので、それを指定する
 
 ### 【III-*】Adminerにアクセスする方法
 
